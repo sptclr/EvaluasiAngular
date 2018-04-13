@@ -32,6 +32,7 @@ import { ProductService } from './services/product.service';
 import { RoleService } from './services/role.service';
 import { CompanyService } from './services/company.service';
 import { UserService } from './services/user.service';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 
 @NgModule({
@@ -54,6 +55,7 @@ import { UserService } from './services/user.service';
     HttpModule,
     FormsModule,
     BsDropdownModule.forRoot(),
+    ModalModule.forRoot()
   ],
   providers: [
         { provide: APP_BASE_HREF, useValue: '/'},
