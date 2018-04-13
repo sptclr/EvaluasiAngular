@@ -1,3 +1,227 @@
-<p>
-  roles works!
-</p>
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h2 class="panel-title">List Roles</h2>
+  </div>
+  <div class="panel-body">
+    <div class="row">
+      <div class="form-group col-md-12">
+        <button type="button" class="btn btn-primary pull-right" (click)="openModalAdd(templateAdd)">Add New</button>
+      </div>
+    </div>
+    <ng-template #templateAdd>
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">Add Role</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form class="role-form" #roleForm="ngForm" (ngSubmit)="onSubmit(roleForm)">
+          <!-- <input type="hidden" name="_id" #_id="ngModel" [(ngModel)]="_categoryService.selectedCategory._id"> -->
+          <div class="row">
+            <div class="form-group col-md-12">
+              <label for="code">Code</label>
+              <input class="form-control" name="code" #code="ngModel" [(ngModel)]="_roleService.selectedRole.code">
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-md-12">
+              <label for="name">Name</label>
+              <input class="form-control" name="name" #name="ngModel" [(ngModel)]="_roleService.selectedRole.name">
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-md-12">
+              <label for="description">Description</label>
+              <input class="form-control" name="description" #description="ngModel" [(ngModel)]="_roleService.selectedRole.description">
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-md-4">
+              <button type="submit" class="btn btn-lg btn-block btn-info">Submit</button>
+            </div>
+            <div *ngIf="isNew" class="form-group col-md-4">
+              <button type="button" class="btn btn-lg btn-block btn-secondary" (click)="resetForm(roleForm)">Reset</button>
+            </div>
+            <div class="form-group col-md-4">
+              <button type="button" class="btn btn-lg btn-block btn-warning" (click)="this.modalRef.hide()">Cancel</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </ng-template>
+
+    <div class="row">
+      <div class="form-group col-md-2">
+        <select class="form-control">
+          <option>xxxxx</option>
+        </select>
+      </div>
+      <div class="form-group col-md-3">
+        <select class="form-control">
+          <option>xxxxx</option>
+        </select>
+      </div>
+      <div class="form-group col-md-3">
+        <input type="date" class="form-control">
+      </div>
+      <div class="form-group col-md-2">
+        <input type="text" class="form-control">
+      </div>
+      <div class="form-group col-md-2">
+        <button type="button" class="btn btn-warning btn-block">Search</button>
+      </div>
+    </div>
+
+    <table class="table table-bordered table-hover">
+      <thead>
+        <tr>
+          <th class="text-center">No.</th>
+          <th class="text-center">Code</th>
+          <th class="text-center">Name</th>
+          <th class="text-center">Created By</th>
+          <th class="text-center">Created Date</th>
+          <th class="text-center">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let role of _roleService.roleList; let i = index">
+          <td class="text-center">{{i+1}}</td>
+          <td>{{role.code}}</td>
+          <td>{{role.name}}</td>
+          <td>{{role.createdBy}}</td>
+          <td>{{role.createdDate}}</td>
+          <td class="text-center">
+            <button type="button" class="btn btn-default btn-sm" (click)="onView(templateView, role._id)">
+              <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+              <ng-template #templateView>
+                <div class="modal-header">
+                  <h4 class="modal-title pull-left">View Role</h4>
+                  <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <form class="role-form" #roleForm="ngForm">
+                    <input type="hidden" name="_id" #_id="ngModel" [(ngModel)]="_roleService.selectedRole._id">
+                    <div class="row">
+                      <div class="form-group col-md-12">
+                        <label for="code">Code</label>
+                        <input class="form-control" readonly name="code" #code="ngModel" [(ngModel)]="_roleService.selectedRole.code">
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col-md-12">
+                        <label for="name">Name</label>
+                        <input class="form-control" readonly name="name" #name="ngModel" [(ngModel)]="_roleService.selectedRole.name">
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col-md-12">
+                        <label for="description">Description</label>
+                        <input class="form-control" readonly name="description" #description="ngModel" [(ngModel)]="_roleService.selectedRole.description">
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col-md-12">
+                        <label for="createdDate">Created Date</label>
+                        <input class="form-control" readonly name="createdDate" #createdDate="ngModel" [(ngModel)]="_roleService.selectedRole.createdDate">
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col-md-12">
+                        <label for="createdBy">Created By</label>
+                        <input class="form-control" readonly name="createdBy" #createdBy="ngModel" [(ngModel)]="_roleService.selectedRole.createdBy">
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col-md-12">
+                        <label for="updatedDate">Updated Date</label>
+                        <input class="form-control" readonly name="updatedDate" #updatedDate="ngModel" [(ngModel)]="_roleService.selectedRole.updatedDate">
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col-md-12">
+                        <label for="updatedBy">Updated By</label>
+                        <input class="form-control" readonly name="updatedBy" #updatedBy="ngModel" [(ngModel)]="_roleService.selectedRole.updatedBy">
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col-md-12">
+                        <button type="button" class="btn btn-lg btn-block btn-warning" (click)="this.modalRef.hide()">Close</button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </ng-template>
+            </button>
+            <button type="button" class="btn btn-default btn-sm" (click)="onEdit(templateEdit, role._id)">
+              <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+              <ng-template #templateEdit>
+                <div class="modal-header">
+                  <h4 class="modal-title pull-left">Edit Role</h4>
+                  <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <form class="role-form" #roleForm="ngForm" (ngSubmit)="onSubmit(roleForm)">
+                    <input type="hidden" name="_id" #_id="ngModel" [(ngModel)]="_roleService.selectedRole._id">
+                    <div class="row">
+                      <div class="form-group col-md-12">
+                        <label for="code">Code</label>
+                        <input class="form-control" name="code" #code="ngModel" [(ngModel)]="_roleService.selectedRole.code">
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col-md-12">
+                        <label for="name">Name</label>
+                        <input class="form-control" name="name" #name="ngModel" [(ngModel)]="_roleService.selectedRole.name">
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col-md-12">
+                        <label for="description">Description</label>
+                        <input class="form-control" name="description" #description="ngModel" [(ngModel)]="_roleService.selectedRole.description">
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col-md-6">
+                        <button type="submit" class="btn btn-lg btn-block btn-info">Update</button>
+                      </div>
+                      <div class="form-group col-md-6">
+                        <button type="button" class="btn btn-lg btn-block btn-warning" (click)="this.modalRef.hide()">Cancel</button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </ng-template>
+            </button>
+            <button type="button" class="btn btn-default btn-sm" (click)="openModalDelete(templateDelete)">
+              <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+              <ng-template #templateDelete>
+                <div class="modal-header">
+                  <h4 class="modal-title pull-left">Delete Role</h4>
+                  <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <h4 class="text-center">Are you sure to delete this?</h4>
+                  <div class="row">
+                    <div class="form-group col-md-6">
+                      <button type="submit" class="btn btn-block btn-info" (click)="onDelete(role._id)">Delete</button>
+                    </div>
+                    <div class="form-group col-md-6">
+                      <button type="button" class="btn btn-block btn-warning" (click)="this.modalRef.hide()">Cancel</button>
+                    </div>
+                  </div>
+                </div>
+              </ng-template>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
