@@ -16,18 +16,31 @@
         </button>
       </div>
       <div class="modal-body">
-        <form class="role-form" #roleForm="ngForm" (ngSubmit)="onSubmit(roleForm)">
+        <form class="role-form" #roleForm="ngForm" ngNativeValidate (ngSubmit)="onSubmit(roleForm)">
           <!-- <input type="hidden" name="_id" #_id="ngModel" [(ngModel)]="_categoryService.selectedCategory._id"> -->
-          <div class="row">
+          <!-- <div class="row">
             <div class="form-group col-md-12">
               <label for="code">Code</label>
               <input class="form-control" name="code" #code="ngModel" [(ngModel)]="_roleService.selectedRole.code">
             </div>
-          </div>
+          </div> -->
+          <!-- <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert alert-danger">
+
+            <div *ngIf="name.errors.required">
+              Name is required.
+            </div>
+            <div *ngIf="name.errors.minlength">
+              Name must be at least 4 characters long.
+            </div>
+            <div *ngIf="name.errors.forbiddenName">
+              Name cannot be Bob.
+            </div>
+          </div> -->
           <div class="row">
             <div class="form-group col-md-12">
               <label for="name">Name</label>
-              <input class="form-control" name="name" #name="ngModel" [(ngModel)]="_roleService.selectedRole.name">
+              <input class="form-control" name="name" #name="ngModel" [(ngModel)]="_roleService.selectedRole.name" required minlength="4"
+                appForbiddenName="bob">
             </div>
           </div>
           <div class="row">
@@ -53,13 +66,13 @@
 
     <div class="row">
       <div class="form-group col-md-2">
-        <select class="form-control">
-          <option>xxxxx</option>
+        <select class="form-control" name="code" id="code" #code="ngModel" [(ngModel)]="_roleService.selectedRole.code">
+          <option *ngFor="let option of _roleService.roleList" value="{{option.code}}">{{option.code}}</option>
         </select>
       </div>
       <div class="form-group col-md-3">
-        <select class="form-control">
-          <option>xxxxx</option>
+        <select class="form-control" name="name" id="name" #name="ngModel" [(ngModel)]="_roleService.selectedRole.name">
+          <option *ngFor="let option of _roleService.roleList" value="{{option.name}}">{{option.name}}</option>
         </select>
       </div>
       <div class="form-group col-md-3">
