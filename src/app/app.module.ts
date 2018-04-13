@@ -2,6 +2,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 //module http
 import { HttpClientModule } from '@angular/common/http';
@@ -54,6 +55,7 @@ import { UserService } from './services/user.service';
     HttpModule,
     FormsModule,
     BsDropdownModule.forRoot(),
+    ModalModule.forRoot()
   ],
   providers: [
         { provide: APP_BASE_HREF, useValue: '/'},
