@@ -1,3 +1,196 @@
-<p>
-  menu works!
-</p>
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h2 class="panel-title">List Menu</h2>
+  </div>
+  <div class="panel-body">
+    <div class="row">
+      <div class="form-group col-md-12">
+        <button class="btn btn-primary pull-right">Add New</button>
+      </div>
+    </div>
+    <ng-template #templateAdd>
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">Add Menu</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form class="menu-form" #menuForm="ngForm" (ngSubmit)="onSubmit(menuForm)">
+          <!-- <input type="hidden" name="_id" #_id="ngModel" [(ngModel)]="menuService.selectedMenu._id"> -->
+          <div class="row">
+            <div class="form-group col-md-12">
+              <label for="code">Code</label>
+              <input class="form-control" name="code" #code="ngModel" [(ngModel)]="menuService.selectedMenu.code">
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-md-12">
+              <label for="name">Name</label>
+              <input class="form-control" name="name" #name="ngModel" [(ngModel)]="menuService.selectedMenu.name">
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-md-12">
+              <label for="controller">Controller Name</label>
+              <input class="form-control" name="controller" #controller="ngModel" [(ngModel)]="menuService.selectedMenu.controller">
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-md-12">
+              <label for="description">Parent</label>
+              <input class="form-control" name="parent" #parent="ngModel" [(ngModel)]="menuService.selectedMenu.parentId">
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-md-4">
+              <button type="submit" class="btn btn-lg btn-block btn-info">Submit</button>
+            </div>
+            <div *ngIf="isNew" class="form-group col-md-4">
+              <button type="button" class="btn btn-lg btn-block btn-secondary" (click)="resetForm(menuForm)">Reset</button>
+            </div>
+            <div class="form-group col-md-4">
+              <button type="button" class="btn btn-lg btn-block btn-warning" (click)="this.modalRef.hide()">Cancel</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </ng-template>
+
+    <table class="table table-bordered table-hover">
+      <thead>
+        <tr>
+          <th class="text-center">No.</th>
+          <th class="text-center">Code</th>
+          <th class="text-center">Menu Name</th>
+          <th class="text-center">Created Date</th>
+          <th class="text-center">Created By</th>  
+          <th class="text-center">Actions</th>                            
+        </tr>
+      </thead>
+      <tbody>
+        <tr  *ngFor = "let menu of menuService.menuList;let i = index">
+          <td class="text-center">{{i + 1}}</td>
+          <td class="text-center">{{menu.code}}</td>
+          <td class="text-center">{{menu.name}}</td>
+          <td class="text-center">{{menu.createdDate}}</td>
+          <td class="text-center">{{menu.createdBy}}</td>
+          <td class="text-center">
+            <button type="button" class="btn btn-default btn-sm" (click)="onView(view, menu._id)">
+              <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+              <ng-template #view>
+                <div class="modal-header">
+                  <h4 class="modal-title pull-left">View Menu</h4>
+                  <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <form class="role-form" #roleForm="ngForm">
+                    <input type="hidden" name="_id" #_id="ngModel" [(ngModel)]="menuService.selectedMenu._id">
+                    <div class="row">
+                      <div class="form-group col-md-12">
+                        <label for="code">Code</label>
+                        <input class="form-control" readonly name="code" #code="ngModel" [(ngModel)]="menuService.selectedMenu.code">
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col-md-12">
+                        <label for="menuname">Menu Name</label>
+                        <input class="form-control" readonly name="menuname" #menuname="ngModel" [(ngModel)]="menuService.selectedMenu.name">
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col-md-12">
+                        <label for="controller">Controller</label>
+                        <input class="form-control" readonly name="controller" #controller="ngModel" [(ngModel)]="menuService.selectedMenu.controller">
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col-md-12">
+                        <label for="parent">Parent</label>
+                        <input class="form-control" readonly name="parent" #parent="ngModel" [(ngModel)]="menuService.selectedMenu.parentId">
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col-md-12">
+                        <button type="button" class="btn btn-lg btn-block btn-warning" (click)="this.modalRef.hide()">Close</button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </ng-template>
+            </button>
+            <button type="button" class="btn btn-default btn-sm" (click)="onEdit(Edit, role._id)">
+              <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+              <ng-template #Edit>
+                <div class="modal-header">
+                  <h4 class="modal-title pull-left">Edit Menu</h4>
+                  <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <form class="role-form" #roleForm="ngForm">
+                    <input type="hidden" name="_id" #_id="ngModel" [(ngModel)]="menuService.selectedMenu._id">
+                    <div class="row">
+                      <div class="form-group col-md-12">
+                        <label for="code">Code</label>
+                        <input class="form-control" readonly name="code" #code="ngModel" [(ngModel)]="menuService.selectedMenu.code">
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col-md-12">
+                        <label for="menuname">Menu Name</label>
+                        <input class="form-control" readonly name="menuname" #menuname="ngModel" [(ngModel)]="menuService.selectedMenu.name">
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col-md-12">
+                        <label for="controller">Controller</label>
+                        <input class="form-control" readonly name="controller" #controller="ngModel" [(ngModel)]="menuService.selectedMenu.controller">
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col-md-12">
+                        <label for="parent">Parent</label>
+                        <input class="form-control" readonly name="parent" #parent="ngModel" [(ngModel)]="menuService.selectedMenu.parentId">
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col-md-12">
+                        <button type="button" class="btn btn-lg btn-block btn-warning" (click)="this.modalRef.hide()">Close</button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </ng-template>
+            </button>
+            <button type="button" class="btn btn-default btn-sm" (click)="openModalDelete(templateDelete)">
+              <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+              <ng-template #templateDelete>
+                <div class="modal-header">
+                  <h4 class="modal-title pull-left">Delete Role</h4>
+                  <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <h4 class="text-center">Are you sure to delete this?</h4>
+                  <div class="row">
+                    <div class="form-group col-md-6">
+                      <button type="submit" class="btn btn-block btn-info" (click)="onDelete(menu._id)">Delete</button>
+                    </div>
+                    <div class="form-group col-md-6">
+                      <button type="button" class="btn btn-block btn-warning" (click)="this.modalRef.hide()">Cancel</button>
+                    </div>
+                  </div>
+                </div>
+              </ng-template>
+            </button>
+          </td>                    
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
