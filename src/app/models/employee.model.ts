@@ -1,2 +1,2 @@
-export class Employee.Model {
+export class Employee {
 }

@@ -1,2 +1,2 @@
-export class Menuaccess.Model {
+export class Menuaccess {
 }

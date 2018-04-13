@@ -1,2 +1,2 @@
-export class User.Model {
+export class User {
 }

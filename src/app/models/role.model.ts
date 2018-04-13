@@ -1,2 +1,2 @@
-export class Role.Model {
+export class Role {
 }
