@@ -46,7 +46,8 @@ import { UserService } from './services/user.service';
     MenuComponent,
     EmployeesComponent,
     UsersComponent,
-    HomeComponent
+    HomeComponent,
+    routingComponents
   ],
   imports: [
     BrowserModule,
