@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 //module http
 import { HttpClientModule } from '@angular/common/http';
@@ -55,7 +56,9 @@ import { UserService } from './services/user.service';
     HttpModule,
     FormsModule,
     BsDropdownModule.forRoot(),
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
+    BsDatepickerModule.forRoot(),
+    
   ],
   providers: [
         { provide: APP_BASE_HREF, useValue: '/'},
