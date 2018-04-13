@@ -1,3 +1,152 @@
-<p>
-  users works!
-</p>
+<h3> LIst User</h3>
+<button type="button" class="btn btn-primary" (click)="openModal(template)" >Create</button>
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">User</h4>
+    <button type="button" class="close pull-right" aria-label="close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form class="form-horizontal" #userForm="ngForm" (ngSubmit)="onSubmit(userForm)">
+        <div class="form-group">
+          <input type="hidden" name="_id" #_id="ngModel" [(ngModel)] = "userService.selectedUser._id">
+          <label for="mRoleId" class="col-sm-2 control-label">Role Name</label>
+          <div class="col-md-6">
+            <select id="mRoleId" name="mRoleId" [(ngModel)]="mRoleId" class="form-control">
+              <option value="Admin" >Admin</option>
+              <option value="Staff">Staff</option>   
+              <option value="Requester">Requester</option>                         
+            </select>
+          </div> 
+        </div>
+        <div class="form-group">
+          <label for="mEmployeeId" class="col-sm-2 control-label">Employee Name</label>
+          <div class="col-md-6">
+            <select id="mEmployeeId" name="mEmployeeId" [(ngModel)]="mEmployeeId" class="form-control">
+              <option value="Andi Kurnniawan" >Andi Kurniawan</option>
+              <option value="Kurniawan">Kurniawan</option>   
+              <option value="Agustina">Agustina</option>
+              <option value="Andri">Andri</option>                         
+            </select>
+          </div> 
+        </div>
+        <div class="form-group" [class.has-error]="usernameControl.invalid && usernameControl.touched">
+          <label for="username" class="col-sm-2 control-label">Username</label>
+          <div class="col-md-6">
+            <input class="form-control" placeholder="Type Username" required id="username" name="username" #usernameControl="ngModel" #username="ngModel" [(ngModel)]="userService.selectedUser.username">
+          <span class="help-block" *ngIf="usernameControl.invalid && usernameControl.touched">username is required</span>
+          </div> 
+        </div>
+        <div class="form-group" [class.has-error]="passwordControl.invalid && passwordControl.touched">
+          <label for="password" class="col-sm-2 control-label">Password</label>
+          <div class="col-md-6">
+            <input class="form-control" placeholder="Type Password" required id="password" type="password" name="password" #passwordControl="ngModel" #password="ngModel"  [(ngModel)]="userService.selectedUser.password">
+            <span class="help-block" *ngIf="passwordControl.invalid && passwordControl.touched">password is required</span>
+          </div> 
+        </div>
+        <div class="form-group">
+          <label for="repassword" class="col-sm-2 control-label">Re type Password</label>
+            <div class="col-md-6">
+              <input class="form-control" placeholder="Re type Password" type="password">
+              <span class="help-block" >re type password is required</span>
+            </div> 
+        </div>
+      
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-default">Submit</button>
+          <button *ngIf="isNew" type="button" class="btn btn-primary" (click)="resetForm(userForm)">Reset</button>                
+          <button type="button" class="btn btn-warning" (click)="this.modalRef.hide()">Cancel</button>
+      </div>
+    </form>
+  </div>
+</ng-template>
+
+
+<ng-template #view>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">User</h4>
+    <button type="button" class="close pull-right" aria-label="close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form class="form-horizontal" #userForm="ngForm" (ngSubmit)="onSubmit(userForm)">
+        <div class="form-group">
+          <input type="hidden" name="_id" #_id="ngModel" [(ngModel)] = "userService.selectedUser._id">
+          <label for="mRoleId" class="col-sm-2 control-label">Role Name</label>
+          <div class="col-md-6">
+            <select disabled id="mRoleId" name="mRoleId" [(ngModel)]="mRoleId" class="form-control">
+              <option value="Admin" >Admin</option>
+              <option value="Staff">Staff</option>   
+              <option value="Requester">Requester</option>                         
+            </select>
+          </div> 
+        </div>
+        <div class="form-group">
+          <label for="mEmployeeId" class="col-sm-2 control-label">Employee Name</label>
+          <div class="col-md-6">
+            <select disabled id="mEmployeeId" name="mEmployeeId" [(ngModel)]="mEmployeeId" class="form-control">
+              <option value="Andi Kurnniawan" >Andi Kurniawan</option>
+              <option value="Kurniawan">Kurniawan</option>   
+              <option value="Agustina">Agustina</option>
+              <option value="Andri">Andri</option>                         
+            </select>
+          </div> 
+        </div>
+        <div class="form-group" [class.has-error]="usernameControl.invalid && usernameControl.touched">
+          <label for="username" class="col-sm-2 control-label">Username</label>
+          <div class="col-md-6">
+            <input disabled class="form-control" placeholder="Type Username" required id="username" name="username" #usernameControl="ngModel" #username="ngModel" [(ngModel)]="userService.selectedUser.username">
+          <span class="help-block" *ngIf="usernameControl.invalid && usernameControl.touched">username is required</span>
+          </div> 
+        </div>
+        <div class="form-group" [class.has-error]="passwordControl.invalid && passwordControl.touched">
+          <label for="password" class="col-sm-2 control-label">Password</label>
+          <div class="col-md-6">
+            <input disabled class="form-control" placeholder="Type Password" required id="password" type="password" name="password" #passwordControl="ngModel" #password="ngModel"  [(ngModel)]="userService.selectedUser.password">
+            <span class="help-block" *ngIf="passwordControl.invalid && passwordControl.touched">password is required</span>
+          </div> 
+        </div>
+        <div class="form-group">
+          <label for="password" class="col-sm-2 control-label">Password</label>
+          <div class="col-md-6">
+            <input disabled class="form-control" placeholder="Type Password" required id="password" type="password" name="password" ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" required>
+            <span class="help-block" >password is required</span>
+          </div> 
+        </div>
+    </form>
+  </div>
+</ng-template>
+
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>No</th>
+      <th>Employee</th>
+      <th>Role</th>
+      <th>Company</th>
+      <th>Username</th>
+      <th>Created Date</th>      
+      <th>Created By</th>      
+      <th>Action</th>                  
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let user of userService.userList; let i = index">
+      <td>{{ i + 1}}</td>
+      <td>{{user.mEmployeeId}}</td>
+      <td>{{ user.mRoleId}}</td>
+      <td> </td>
+      <td> {{ user.username}}</td>
+      <td> {{ user.createdDate}}</td>
+      <td> {{ user.createdBy }}</td>
+      <td> <button type="button" value="Edit" (click)="onView(view, user._id)">view</button>
+        <button type="button" value="Edit" (click)="onEdit(template, user._id)">Edit</button>
+        <button type="button" value="Delete" (click)="onDelete(user._id)">delete</button>
+      </td>     
+    </tr>
+  </tbody>
+</table>
+
