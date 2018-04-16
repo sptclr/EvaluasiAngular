@@ -17,9 +17,10 @@
         </div>
       </div>
         <div class="row">
-          <div class="form-group col-md-6">
-            <label for="name">Name</label>
-            <input class="form-control" name="name" #name="ngModel" [(ngModel)]="productService.selectedProduct.name">
+          <div class="form-group col-md-6" [class.has-error]="nameControl.invalid && nameControl.touched">
+            <label for="name" class="control-label">Name*</label>
+            <input class="form-control" name="name" required id="name" #nameControl="ngModel" #name="ngModel" [(ngModel)]="productService.selectedProduct.name">
+            <span class="help-block" *ngIf="nameControl.invalid && nameControl.touched">name is required</span>
           </div>
         </div>
         <div class="row">
