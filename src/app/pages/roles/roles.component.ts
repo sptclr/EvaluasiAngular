@@ -3,6 +3,7 @@ import { RoleService } from '../../services/role.service';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { NgForm } from '@angular/forms';
 import { Role } from '../../models/role.model';
+import { FlashMessage } from 'angular-flash-message';
 
 @Component({
   selector: 'app-roles',
@@ -11,9 +12,10 @@ import { Role } from '../../models/role.model';
 })
 export class RolesComponent implements OnInit {
   modalRef: BsModalRef;
-  isNew: Boolean = true;
 
-  constructor(private _roleService: RoleService, private modalService: BsModalService) { }
+  constructor(private _roleService: RoleService,
+              private modalService: BsModalService,
+              private flashMessage: FlashMessage) { }
 
   ngOnInit() {
     this.resetForm();
@@ -32,19 +34,6 @@ export class RolesComponent implements OnInit {
     this.resetForm();
   }
 
-  openModalView(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template);
-  }
-
-  openModalEdit(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template);
-  }
-
-  onView(template: TemplateRef<any>, _id: String) {
-    this._roleService.getRole(_id);
-    this.openModalView(template);
-  }
-
   onSubmit(form: NgForm) {
     //alert(JSON.stringify(form.value));
     if (form.value._id == null) {
@@ -53,33 +42,50 @@ export class RolesComponent implements OnInit {
           this._roleService.getRoles();
           this.resetForm(form);
           this.modalRef.hide();
-        })
-    } else {
-      this._roleService.patchRole(form.value._id, form.value)
-        .subscribe(data => {
-          this._roleService.getRoles();
-          this.resetForm(form);
-          this.modalRef.hide();
+          this.flashMessage.success('Success message');
         })
     }
   }
-
-  onEdit(template: TemplateRef<any>, _id: String) {
-    //alert(JSON.stringify(category));
+  
+  onView(template: TemplateRef<any>, _id: String) {
+    this.modalRef = this.modalService.show(template);
     this._roleService.getRole(_id);
-    this.openModalEdit(template);
   }
 
+  //Edit
+  onEdit(template: TemplateRef<any>, _id: String) {
+    this.modalRef = this.modalService.show(template);
+    this._roleService.getRole(_id);
+  }
+
+  onUpdate(form: NgForm) {
+    this._roleService.patchRole(form.value._id, form.value)
+      .subscribe(data => {
+        this._roleService.getRoles();
+        this.resetForm(form);
+        this.modalRef.hide();
+      })
+  }
+
+  //Delete
   openModalDelete(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
   }
 
+  // onDelete(_id) {
+  //   this._roleService.deleteRole(_id)
+  //     .subscribe(x => {
+  //       this._roleService.getRoles();
+  //       this.modalRef.hide();
+  //     });
+  // }
   onDelete(_id) {
-    this._roleService.deleteRole(_id)
+    this._roleService.isDeleteRole(_id)
       .subscribe(x => {
         this._roleService.getRoles();
         this.modalRef.hide();
       });
   }
+
 
 }
