@@ -1,7 +1,7 @@
 export class Menuaccess {
     _id: String;
-    mRoleId: String;
-    mMenuId: String;
+    role: String;
+    menu: String;
     isDelete : Boolean;
     createdBy : String;
     createdDate : Date;

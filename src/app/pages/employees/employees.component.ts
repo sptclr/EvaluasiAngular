@@ -36,6 +36,7 @@ constructor(private _employeeService: EmployeeService, private modalService: BsM
   }
 
   onSubmit(form: NgForm){
+    //alert(JSON.stringify);
     if (form.value._id == null) {
       this._employeeService.postEmployee(form.value)
       .subscribe(data => {
@@ -60,13 +61,36 @@ constructor(private _employeeService: EmployeeService, private modalService: BsM
     this.isNew = false;
   }
 
-  onDelete(_id: String){
+  onView(template: TemplateRef<any>, _id: String) {
+    this._employeeService.getEmployee(_id);
+    this.openModalView(template);
+  }
+
+  onDelete(_id: String, form: NgForm){
     if (confirm('Are you sure to delete this?') === true) {
-      this._employeeService.deleteEmployee(_id)
+      this._employeeService.isDeleteEmployee(_id)
       .subscribe(x => {
         this._employeeService.getEmployees();
       });
+      // form.value.isDelete=true;
+      // this._employeeService.patchEmployee(_id, form.value)
+      // .subscribe(data => {
+      //   this._employeeService.getEmployees();
+      // });
     }
+    }
+  
+
+  openModalAdd(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template);
+    this.resetForm();
+  }
+  openModalView(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template);
+  }
+
+  openModalEdit(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template);
   }
 
 }
