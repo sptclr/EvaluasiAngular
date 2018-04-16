@@ -14,8 +14,8 @@ export class MenuaccessService {
 
   private _url = "http://localhost:3000/api/menuaccesses";
 
-  selectedMenuAccess: Menuaccess;
-  selectedMenuAccessList: Menuaccess[];
+  selectedMenuAccess: Menuaccess;//tunggal
+  selectedMenuAccessList: Menuaccess[];//jamak
 
   constructor(private http: Http) { }
 
