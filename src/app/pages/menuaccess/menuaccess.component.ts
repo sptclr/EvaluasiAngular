@@ -6,6 +6,8 @@ import { MenuaccessService } from "../../services/menuaccess.service";
 import { Menuaccess } from "../../models/menuaccess.model";
 import { RoleService } from '../../services/role.service';
 import { MenuService } from '../../services/menu.service';
+import { Role } from '../../models/role.model';
+import { Menu } from '../../models/menu.model';
 
 @Component({
   selector: 'app-menuaccess',
@@ -24,10 +26,10 @@ export class MenuaccessComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.resetForm();
     this._menuAccessService.getMenuAccesses();
     this._roleService.getRoles();
     this._menuService.getMenus();
+    this.resetForm();
   }
 
   resetForm(form?: NgForm){
@@ -36,6 +38,8 @@ export class MenuaccessComponent implements OnInit {
     }
     this.isNew = true
     this._menuAccessService.selectedMenuAccess = new Menuaccess();
+    this._roleService.selectedRole = new Role();
+    this._menuService.selectedMenu = new Menu();
   }//end reset
 
   onSubmit(form: NgForm){
@@ -46,7 +50,19 @@ export class MenuaccessComponent implements OnInit {
                               this._menuAccessService.getMenuAccesses();
                               this.resetForm(form);
                               this.modalRef.hide()
-                            })
+                            });
+      // this._menuService.postMenu(form.value)
+      //                       .subscribe(data => {
+      //                         this._menuService.getMenus();
+      //                         this.resetForm(form);
+      //                         this.modalRef.hide()
+      //                       });
+      // this._roleService.postRole(form.value)
+      //                       .subscribe(data => {
+      //                         this._roleService.getRoles();
+      //                         this.resetForm(form);
+      //                         this.modalRef.hide()
+      //                       });
     } else{
       this._menuAccessService.patchMenuAccess(form.value._id, form.value)
                             .subscribe(data => {
@@ -54,6 +70,18 @@ export class MenuaccessComponent implements OnInit {
                               this.resetForm(form);
                               this.modalRef.hide();
                             })
+      // this._menuService.patchMenu(form.value._id, form.value)
+      //                       .subscribe(data => {
+      //                         this._menuService.getMenus();
+      //                         this.resetForm(form);
+      //                         this.modalRef.hide();
+      //                       })
+      // this._roleService.patchRole(form.value._id, form.value)
+      //                       .subscribe(data => {
+      //                         this._roleService.getRoles();
+      //                         this.resetForm(form);
+      //                         this.modalRef.hide();
+      //                       })
     }
   }//end submit
 
