@@ -3,7 +3,6 @@ import { RoleService } from '../../services/role.service';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { NgForm } from '@angular/forms';
 import { Role } from '../../models/role.model';
-import { FlashMessage } from 'angular-flash-message';
 
 @Component({
   selector: 'app-roles',
@@ -14,8 +13,7 @@ export class RolesComponent implements OnInit {
   modalRef: BsModalRef;
 
   constructor(private _roleService: RoleService,
-              private modalService: BsModalService,
-              private flashMessage: FlashMessage) { }
+              private modalService: BsModalService) { }
 
   ngOnInit() {
     this.resetForm();
@@ -42,7 +40,6 @@ export class RolesComponent implements OnInit {
           this._roleService.getRoles();
           this.resetForm(form);
           this.modalRef.hide();
-          this.flashMessage.success('Success message');
         })
     }
   }

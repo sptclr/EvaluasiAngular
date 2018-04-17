@@ -12,7 +12,6 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { Http, HttpModule } from '@angular/http';
 import { AppRoutingModule } from './app-routing.module';
 import { routingComponents } from './app-routing.module';
-import {FlashMessageModule} from 'angular-flash-message';
 
 //Component Parent
 import { AppComponent } from './app.component';
@@ -57,7 +56,6 @@ import { UserService } from './services/user.service';
     ReactiveFormsModule,
     HttpModule,
     FormsModule,
-    FlashMessageModule,
     BsDropdownModule.forRoot(),
     ModalModule.forRoot(),
     BsDatepickerModule.forRoot(),
