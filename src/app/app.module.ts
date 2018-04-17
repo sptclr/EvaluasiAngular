@@ -35,7 +35,7 @@ import { ProductService } from './services/product.service';
 import { RoleService } from './services/role.service';
 import { CompanyService } from './services/company.service';
 import { UserService } from './services/user.service';
-
+import { PaginationService } from "./services/pagination.service";
 
 @NgModule({
   declarations: [
@@ -48,7 +48,7 @@ import { UserService } from './services/user.service';
     EmployeesComponent,
     UsersComponent,
     HomeComponent,
-    routingComponents
+    routingComponents,
   ],
   imports: [
     BrowserModule,
@@ -71,7 +71,8 @@ import { UserService } from './services/user.service';
         ProductService,
         RoleService,
         CompanyService,
-        UserService
+        UserService,
+        PaginationService,
   ],
   bootstrap: [AppComponent]
 })
