@@ -1,8 +1,9 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { RoleService } from '../../services/role.service';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
-import { NgForm } from '@angular/forms';
+import { NgForm, FormControl, FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { Role } from '../../models/role.model';
+import { NgFlashMessageService } from 'ng-flash-messages';
 
 @Component({
   selector: 'app-roles',
@@ -12,8 +13,11 @@ import { Role } from '../../models/role.model';
 export class RolesComponent implements OnInit {
   modalRef: BsModalRef;
 
+  form: FormGroup;
+
   constructor(private _roleService: RoleService,
-              private modalService: BsModalService) { }
+              private modalService: BsModalService,
+              private ngFlashMessageService: NgFlashMessageService) { }
 
   ngOnInit() {
     this.resetForm();
@@ -40,10 +44,16 @@ export class RolesComponent implements OnInit {
           this._roleService.getRoles();
           this.resetForm(form);
           this.modalRef.hide();
+          this.ngFlashMessageService.showFlashMessage({
+            messages: ["Data berhasil disimpan!!"],
+            dismissible: true,
+            timeout: false,
+            type: 'success'
+          })
         })
-    }
+    } 
   }
-  
+
   onView(template: TemplateRef<any>, _id: String) {
     this.modalRef = this.modalService.show(template);
     this._roleService.getRole(_id);

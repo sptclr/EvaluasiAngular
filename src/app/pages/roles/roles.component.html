@@ -3,6 +3,7 @@
     <h2 class="panel-title">List Roles</h2>
   </div>
   <div class="panel-body">
+    <ng-flash-message></ng-flash-message>
     <div class="row">
       <div class="form-group col-md-12">
         <button type="button" class="btn btn-primary pull-right" (click)="openModalAdd(templateAdd)">Add New</button>
@@ -16,7 +17,8 @@
         </button>
       </div>
       <div class="modal-body">
-        <form class="role-form" #roleForm="ngForm" ngNativeValidate (ngSubmit)="onSubmit(roleForm)">
+        <form class="role-form" #roleForm="ngForm" (ngSubmit)="onSubmit(roleForm)">
+            <ng-flash-message></ng-flash-message>
           <!-- <input type="hidden" name="_id" #_id="ngModel" [(ngModel)]="_categoryService.selectedCategory._id"> -->
           <!-- <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert alert-danger">
             <div *ngIf="name.errors.required">
@@ -44,7 +46,8 @@
           <div class="row">
             <div class="form-group col-md-12">
               <label for="description">Description</label>
-              <input class="form-control" name="description" id="description" #description="ngModel" [(ngModel)]="_roleService.selectedRole.description" required>
+              <input class="form-control" name="description" id="description" #description="ngModel" [(ngModel)]="_roleService.selectedRole.description"
+                required>
             </div>
           </div>
           <div class="row">
@@ -103,7 +106,7 @@
           <td>{{role.code}}</td>
           <td>{{role.name}}</td>
           <td>{{role.createdBy}}</td>
-          <td>{{role.createdDate | date : "d MMM y h:mm:ss a"}}</td>
+          <td>{{role.createdDate | date : "d-MMM-y h:mm:ss a"}}</td>
           <td class="text-center">
             <button type="button" class="btn btn-default btn-sm" (click)="onView(templateView, role._id)">
               <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
@@ -146,7 +149,7 @@
                         <label for="createdDate">Created Date</label>
                       </div>
                       <div class="form-group col-md-9">
-                        <input class="form-control" readonly name="createdDate" #createdDate="ngModel" [(ngModel)]="_roleService.selectedRole.createdDate">
+                        <input type="text" class="form-control" readonly name="createdDate" #createdDate="ngModel" [(ngModel)]="_roleService.selectedRole.createdDate">
                       </div>
                     </div>
                     <div class="row">

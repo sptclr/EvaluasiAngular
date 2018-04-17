@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { NgFlashMessagesModule } from 'ng-flash-messages';
 
 //module http
 import { HttpClientModule } from '@angular/common/http';
@@ -59,7 +60,7 @@ import { UserService } from './services/user.service';
     BsDropdownModule.forRoot(),
     ModalModule.forRoot(),
     BsDatepickerModule.forRoot(),
-    
+    NgFlashMessagesModule.forRoot()
   ],
   providers: [
         { provide: APP_BASE_HREF, useValue: '/'},
