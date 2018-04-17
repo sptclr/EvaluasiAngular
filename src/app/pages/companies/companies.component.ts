@@ -29,11 +29,18 @@ export class CompaniesComponent implements OnInit {
     this.modalRef = this.modalService.show(template);
     this.resetForm();
   }
-  onEdit(template: TemplateRef<any>, _id : String){
+  onEdit(templateEdit: TemplateRef<any>, _id : String){
     this.companyService.getCompany(_id);
-    this.openModal(template);
+    this.openModal(templateEdit);
     this.isNew = false;
   }
+
+  onView(templateView: TemplateRef<any>, _id : String){
+    this.companyService.getCompany(_id);
+    this.openModal(templateView);
+    this.isNew = false;
+  }
+
   onSubmit(form: NgForm){
     if(form.value._id == null){
       this.companyService.postCompany(form.value)

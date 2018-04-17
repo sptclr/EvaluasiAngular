@@ -1,99 +1,190 @@
-  <h3>Companies</h3>
-  <button type="button" class="btn btn-primary" (click)="openModal(template)">Create New</button>
-  <br>
-  <br>
-  <ng-template #template>
-  <div class="modal-header">
-    <h4 class="modal-title pull-left">Company</h4>
-    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-      <span aria-hidden="true">&times;</span>
-    </button>
+<h3>Companies</h3>
+<button type="button" class="btn btn-primary pull-right" (click)="openModal(template)"><i class="fas fa-plus-square"></i></button>
+<br>
+<br>
+
+<div class="row">
+    <div class="form-group col-md-2">
+        <input class=form-control type="number" placeholder="Company Code" name="code" [(ngModel)]="companyService.selectedCompany.code">
+      </div>
+
+      <div class="form-group col-md-3">
+          <input class=form-control placeholder="Company Name" name="firstName" #firstName="ngModel" [(ngModel)]="companyService.selectedCompany.firstName"> 
+        </div>
+    
+    <div class="form-group col-md-3">
+        <input type="text" placeholder="Datepicker" class="form-control" bsDatepicker placement="bottom">
+      </div>
+    
+    <div class="form-group col-md-2">
+        <input class=form-control placeholder=CreatedBy  name="createdBy" #createdBy="ngModel" [(ngModel)]="companyService.selectedCompany.createdBy"> 
+    </div>
+
+    <div class="form-group col-md-2">
+      <button type="button" class="btn btn-warning btn-block">Search</button>
+    </div>
+
   </div>
-  <div class="modal-body col-md-20">
-    <form class="form-horizontal" #companyForm="ngForm" (ngSubmit)="onSubmit(companyForm)">
-      <input type="hidden" name="_id" #_id="ngModel" [(ngModel)]="companyService.selectedCompany._id">
+
+<ng-template #templateView>
+<div class="modal-header">
+  <h4 class="modal-title pull-left">Company</h4>
+  <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body col-md-20">
+  
+  <form class="form-horizontal" #companyForm="ngForm" (ngSubmit)="onSubmit(companyForm)">
+    <input type="hidden" name="_id" #_id="ngModel" [(ngModel)]="companyService.selectedCompany._id">
 
 
-      <div class="form-group" [class.has-error]="codeControl.invalid && codeControl.touched">
-        <label for="code" class="col-md-4 control-label">Company Code*</label>
+    <div class="form-group" [class.has-error]="codeControl.invalid && codeControl.touched">
+      <label for="code" class="col-md-4 control-label">Company Code*</label>
+      <div class="col-md-8">
+        <input class="form-control" placeholder="Auto Generated" required id="code" name="code" #codeControl="ngModel" #code="ngModel"
+          [(ngModel)]="companyService.selectedCompany.code" disabled>
+          <span class="help-block" *ngIf="codeControl.invalid && codeControl.touched">Company Code is Required</span>
+      </div>
+    </div>
+
+    <div class="form-group" [class.has-error]="nameControl.invalid && nameControl.touched">
+      <label for="name" class="col-md-4 control-label">Company Name*</label>
+      <div class="col-md-8">
+        <input class="form-control" placeholder="Type Company Name" required id="name" name="name" #nameControl="ngModel" #name="ngModel"
+        [(ngModel)]="companyService.selectedCompany.name" disabled>
+        <span class="help-block" *ngIf="nameControl.invalid && nameControl.touched">Company Name is Required</span>
+      </div>
+    </div> 
+    
+    <div class="form-group">
+      <label for="adress" class="col-md-4 control-label">Adress</label>
+      <div class="col-md-8">
+        <input class="form-control" placeholder="Type Adress" name="adress" #description="ngModel" [(ngModel)]="companyService.selectedCompany.adress" disabled>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="phone" class="col-md-4 control-label">Phone</label>
+      <div class="col-md-8">
+        <input class="form-control" placeholder="Type Phone" name="phone" #description="ngModel" [(ngModel)]="companyService.selectedCompany.phone" disabled>
+      </div>
+    </div>
+
+    <div class="form-group">
+        <label for="email" class="col-md-4 control-label">Email</label>
         <div class="col-md-8">
-          <input class="form-control" placeholder="Auto Generated" required id="code" name="code" #codeControl="ngModel" #code="ngModel"
-            [(ngModel)]="companyService.selectedCompany.code" disabled>
-            <span class="help-block" *ngIf="codeControl.invalid && codeControl.touched">Company Code is Required</span>
+          <input class="form-control" placeholder="Type Email" name="email" #description="ngModel" [(ngModel)]="companyService.selectedCompany.email" disabled>
         </div>
       </div>
 
-      <div class="form-group" [class.has-error]="nameControl.invalid && nameControl.touched">
-        <label for="name" class="col-md-4 control-label">Company Name*</label>
-        <div class="col-md-8">
-          <input class="form-control" placeholder="Type Company Name" required id="name" name="name" #nameControl="ngModel" #name="ngModel"
-          [(ngModel)]="companyService.selectedCompany.name">
-          <span class="help-block" *ngIf="nameControl.invalid && nameControl.touched">Company Name is Required</span>
-        </div>
-      </div> 
-      
-      <div class="form-group">
-          <label for="email" class="col-md-4 control-label">Email</label>
-          <div class="col-md-8">
-            <input class="form-control" placeholder="Type Email" name="email" #description="ngModel" [(ngModel)]="companyService.selectedCompany.email">
-          </div>
-        </div>
-
-        
-      <div class="form-group">
-        <label for="phone" class="col-md-4 control-label">Phone</label>
-        <div class="col-md-8">
-          <input class="form-control" placeholder="Type Phone" name="phone" #description="ngModel" [(ngModel)]="companyService.selectedCompany.phone">
-        </div>
+    <div class="form-group">
+      <label for="createdBy" class="col-md-4 control-label">Created By</label>
+      <div class="col-md-8">
+        <input class="form-control" name="createdBy" #createdBy="ngModel" [(ngModel)]="companyService.selectedCompany.createdBy" disabled>
       </div>
-      
-      <div class="form-group">
-        <label for="adress" class="col-md-4 control-label">Adress</label>
-        <div class="col-md-8">
-          <input class="form-control" placeholder="Type Adress" name="adress" #description="ngModel" [(ngModel)]="companyService.selectedCompany.adress">
-        </div>
-      </div>
-
-      <!-- <div class="form-group">
-        <label for="createdBy" class="col-md-4 control-label">Created By</label>
-        <div class="col-md-8">
-          <input class="form-control" name="createdBy" #createdBy="ngModel" [(ngModel)]="companyService.selectedCompany.createdBy">
-        </div>
-      </div> -->
-      
-      <div class="modal-footer">
-          <button type="submit" class="btn btn-default">Submit</button>
-          <button *ngIf="isNew" type="button" class="btn btn-primary" (click)="resetForm(companyForm)">Reset</button>                
-          <button type="button" class="btn btn-warning" (click)="this.modalRef.hide()">Cancel</button>
-      </div>
-      
-    </form>
-  </div>
+    </div>
+    
+    <div class="modal-footer">               
+        <button type="button" class="btn btn-warning" (click)="this.modalRef.hide()">Close</button>
+    </div>
+    
+  </form>
+</div>
 </ng-template>
 
+<ng-template #templateEdit>
+    <div class="modal-header">
+      <h4 class="modal-title pull-left">Company</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body col-md-20">
+      
+      <form class="form-horizontal" #companyForm="ngForm" (ngSubmit)="onSubmit(companyForm)">
+        <input type="hidden" name="_id" #_id="ngModel" [(ngModel)]="companyService.selectedCompany._id">
+    
+    
+        <div class="form-group" [class.has-error]="codeControl.invalid && codeControl.touched">
+          <label for="code" class="col-md-4 control-label">Company Code*</label>
+          <div class="col-md-8">
+            <input class="form-control" placeholder="Auto Generated" required id="code" name="code" #codeControl="ngModel" #code="ngModel"
+              [(ngModel)]="companyService.selectedCompany.code" disabled>
+              <span class="help-block" *ngIf="codeControl.invalid && codeControl.touched">Company Code is Required</span>
+          </div>
+        </div>
+    
+        <div class="form-group" [class.has-error]="nameControl.invalid && nameControl.touched">
+          <label for="name" class="col-md-4 control-label">Company Name*</label>
+          <div class="col-md-8">
+            <input class="form-control" placeholder="Type Company Name" required id="name" name="name" #nameControl="ngModel" #name="ngModel"
+            [(ngModel)]="companyService.selectedCompany.name">
+            <span class="help-block" *ngIf="nameControl.invalid && nameControl.touched">Company Name is Required</span>
+          </div>
+        </div> 
+        
+        <div class="form-group">
+          <label for="adress" class="col-md-4 control-label">Adress</label>
+          <div class="col-md-8">
+            <input class="form-control" placeholder="Type Adress" name="adress" #description="ngModel" [(ngModel)]="companyService.selectedCompany.adress">
+          </div>
+        </div>
+    
+        <div class="form-group">
+          <label for="phone" class="col-md-4 control-label">Phone</label>
+          <div class="col-md-8">
+            <input class="form-control" placeholder="Type Phone" name="phone" #description="ngModel" [(ngModel)]="companyService.selectedCompany.phone">
+          </div>
+        </div>
+    
+        <div class="form-group">
+            <label for="email" class="col-md-4 control-label">Email</label>
+            <div class="col-md-8">
+              <input class="form-control" placeholder="Type Email" name="email" #description="ngModel" [(ngModel)]="companyService.selectedCompany.email">
+            </div>
+          </div>
+    
+        <div class="form-group">
+          <label for="createdBy" class="col-md-4 control-label">Created By</label>
+          <div class="col-md-8">
+            <input class="form-control" name="createdBy" #createdBy="ngModel" [(ngModel)]="companyService.selectedCompany.createdBy">
+          </div>
+        </div>
+        
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-default">Submit</button>
+            <button *ngIf="isNew" type="button" class="btn btn-primary" (click)="resetForm(companyForm)">Reset</button>                
+            <button type="button" class="btn btn-warning" (click)="this.modalRef.hide()">Cancel</button>
+        </div>
+        
+      </form>
+    </div>
+    </ng-template>
+
 <table class="table table-bordered">
-  <thead>
-    <tr>
-      <th class="text-center" >No. </th>
-      <th class="text-center" >Company Code</th>
-      <th class="text-center" >Company Name</th>
-      <th class="text-center" >Created Date</th>
-      <th class="text-center" >Created By</th>
-      <th class="text-center" >Action</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let company of companyService.companyList; let i = index">
-      <td class="text-center" >{{ i + 1 }}</td>
-      <td class="text-center" >{{company.code}}</td>
-      <td class="text-center" >{{company.name}}</td>
-      <td class="text-center" >{{company.createdDate | date : "medium" }}</td>
-      <td class="text-center" >{{company.createdBy}}</td>
-      <td class="text-center" >
-        <button type="button" value="Edit" (click)="onEdit(template, company._id)">View</button>
-        <button type="button" value="Edit" (click)="onEdit(template, company._id)">Edit</button>
-        <button type="button" value="Delete" (click)="onDelete(company._id)">Delete</button>
-      </td>
-    </tr>
-  </tbody>
+<thead>
+  <tr>
+    <th class="text-center" >No. </th>
+    <th class="text-center" >Company Code</th>
+    <th class="text-center" >Company Name</th>
+    <th class="text-center" >Created Date</th>
+    <th class="text-center" >Created By</th>
+    <th class="text-center" >Action</th>
+  </tr>
+</thead>
+<tbody>
+  <tr *ngFor="let company of companyService.companyList; let i = index">
+    <td class="text-center" >{{ i + 1 }}</td>
+    <td class="text-center" >{{company.code}}</td>
+    <td class="text-center" >{{company.name}}</td>
+    <td class="text-center" >{{company.createdDate | date : "medium" }}</td>
+    <td class="text-center" >{{company.createdBy}}</td>
+    <td class="text-center" >
+      <button type="button" value="Edit" (click)="onEdit(templateView, company._id)"><i class="fas fa-eye"></i></button>
+      <button type="button" value="Edit" (click)="onEdit(templateEdit, company._id)"><i class="far fa-edit"></i></button>
+      <button type="button" value="Delete" (click)="onDelete(company._id)"><i class="fas fa-trash-alt"></i></button>
+    </td>
+  </tr>
+</tbody>
 </table>
