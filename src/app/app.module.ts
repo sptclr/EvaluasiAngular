@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { NgFlashMessagesModule } from 'ng-flash-messages';
 
 //module http
 import { HttpClientModule } from '@angular/common/http';
@@ -34,8 +35,7 @@ import { ProductService } from './services/product.service';
 import { RoleService } from './services/role.service';
 import { CompanyService } from './services/company.service';
 import { UserService } from './services/user.service';
-import { ModalModule } from 'ngx-bootstrap/modal';
-
+import { PaginationService } from "./services/pagination.service";
 
 @NgModule({
   declarations: [
@@ -48,7 +48,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     EmployeesComponent,
     UsersComponent,
     HomeComponent,
-    routingComponents
+    routingComponents,
   ],
   imports: [
     BrowserModule,
@@ -58,25 +58,22 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     HttpModule,
     FormsModule,
     BsDropdownModule.forRoot(),
-<<<<<<< HEAD
-    ModalModule.forRoot()
-=======
     ModalModule.forRoot(),
     BsDatepickerModule.forRoot(),
-    
->>>>>>> c9db1eea1983a9ad876a1c6ecbd4d5e666ae19ba
+    NgFlashMessagesModule.forRoot()
   ],
   providers: [
         { provide: APP_BASE_HREF, useValue: '/'},
-        //service
         EmployeeService,
         MenuService,
         MenuaccessService,
         ProductService,
         RoleService,
         CompanyService,
-        UserService
+        UserService,
+        PaginationService,
   ],
   bootstrap: [AppComponent]
 })
+
 export class AppModule { }
