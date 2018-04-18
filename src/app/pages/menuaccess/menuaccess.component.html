@@ -42,7 +42,7 @@
               <div class="checkbox" name="menu" id="menu" #menu="ngModel" [(ngModel)]="_menuAccessService.selectedMenuAccessList.menu">
                 <h4>
                   <label *ngFor="let option of _menuService.menuList">
-                    <input type="checkbox" value="{{option.name}}">
+                    <input type="checkbox" value="{{option.name}}" [checked]>
                     <span class="cr">
                       <i class="cr-icon glyphicon glyphicon-ok"></i>
                     </span>
@@ -111,19 +111,19 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let menuAccess of _menuAccessService.selectedMenuAccessList; let i = index">
+        <tr *ngFor="let i = index;let item of pagedItems">
           <td class="text-center">{{i+1}}</td>
-          <td>{{menuAccess.role}}</td>
-          <td>{{menuAccess.menu}}</td>
-          <td>{{menuAccess.createdDate | date : "medium"}}</td>
-          <td>{{menuAccess.createdBy}}</td>
-          <td>{{menuAccess.updatedDate | date : "medium"}}</td>
-          <td>{{menuAccess.updatedBy}}</td>
+          <td>{{item.role.code}}</td>
+          <td>{{item.menu.name}}</td>
+          <td>{{item.createdDate | date : "medium"}}</td>
+          <td>{{item.createdBy}}</td>
+          <td>{{item.updatedBy}}</td>
+          <td>{{item.updatedDate | date : "medium"}}</td>
 
           <!-- VIEW ICON -->
           <td class="text-center">
-            <span class="btn btn-primary" (click)="openModal(templateView, onView, menuAccess._id)">
-              <i class="fas fa-street-view"></i>
+            <span class="btn btn-primary" (click)="openModal(templateView, onView, item._id)">
+              <i class="fa fa-street-view"></i>
             </span>
             <!-- Template View -->
             <ng-template #templateView>
@@ -184,7 +184,7 @@
             <!-- End Template View -->
 
 
-            <span class="btn btn-info" value="Edit" (click)="openModal(templateEdit, onEdit, menuAccess._id)">
+            <span class="btn btn-info" value="Edit" (click)="openModal(templateEdit, onEdit, item._id)">
               <i class="fas fa-edit"></i>
             </span>
 
@@ -208,7 +208,7 @@
                       <!-- <select name="role" #role="ngModel" [(ngModel)]="_menuAccessService.selectedMenuAccessList.role" class="form-control">
                         <option *ngFor="let option of _roleService.roleList" value="{{option.code}}">{{option.code}}</option>
                       </select> -->
-                      <input class="form-control" name="role" #role="ngModel" [(ngModel)]="_menuAccessService.selectedMenuAccessList.role" disabled>
+                      <input class="form-control" name="role" #role="ngModel" [(ngModel)]="_menuAccessService.selectedMenuAccessList.role">
                     </div>
                   </div>
                   <!-- end Role Code -->
@@ -237,11 +237,8 @@
                   <!-- end Menu Access / Role Code -->
                   <!-- button -->
                   <div class="row">
-                    <div class="form-group col-md-4">
+                    <div class="form-group col-md-4 col-md-offset-4">
                       <button type="submit" class="btn btn-lg btn-block btn-info">Submit</button>
-                    </div>
-                    <div *ngIf="isNew" class="form-group col-md-4">
-                      <button type="button" class="btn btn-lg btn-block btn-secondary" (click)="resetForm(menuAccessForm)">Reset</button>
                     </div>
                     <div class="form-group col-md-4">
                       <button type="button" class="btn btn-lg btn-block btn-warning" (click)="this.modalRef.hide()">Cancel</button>
@@ -254,13 +251,54 @@
             <!-- End Template Edit -->
 
 
-            <span class="btn btn-danger" value="Delete" (click)="onDelete(onDelete, menuAccess._id)">
+            <span class="btn btn-danger" value="Delete" (click)="openModal(templateDelete)">
               <i class="far fa-trash-alt"></i>
             </span>
+            <!-- template Delete -->
+            <ng-template #templateDelete>
+              <div class="modal-header">
+                <h4 class="modal-title pull-left">Delete Menu Access</h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <h4 class="text-center">Mbok Aku ojo dibusak mas?!</h4>
+                <div class="row">
+                  <div class="form-group col-md-6">
+                    <button type="button" class="btn btn-block btn-info" (click)="onDelete(item._id)">Delete</button>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <button type="button" class="btn btn-block btn-warning" (click)="this.modalRef.hide()">Cancel</button>
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+
           </td>
         </tr>
       </tbody>
     </table>
     <!-- end table -->
+      <!-- pager -->
+      <ul *ngIf="pager.pages && pager.pages.length" class="pagination">
+          <li [ngClass]="{disabled:pager.currentPage === 1}">
+            <a (click)="setPage(1)">First</a>
+          </li>
+          <li [ngClass]="{disabled:pager.currentPage === 1}">
+            <a (click)="setPage(pager.currentPage - 1)">Previous</a>
+          </li>
+          <li *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
+            <a (click)="setPage(page)">{{page}}</a>
+          </li>
+          <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+            <a (click)="setPage(pager.currentPage + 1)">Next</a>
+          </li>
+          <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+            <a (click)="setPage(pager.totalPages)">Last</a>
+          </li>
+        </ul>
   </div>
 </div>
+
+
