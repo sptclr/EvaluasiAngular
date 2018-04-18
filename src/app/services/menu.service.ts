@@ -54,4 +54,10 @@ export class MenuService {
   deleteMenu(_id) {
     return this.http.delete(this._url + '/' + _id).map(x => x.json());
   }
+
+  isDeleteMenu(_id) {
+    const headerOptions = new Headers({'Content-Type': 'application/json'});
+    const requestOptions = new RequestOptions({method: RequestMethod.Put, headers: headerOptions});
+    return this.http.put(this._url + '/' + _id, requestOptions).map(x => x.json());
+  }
 }
