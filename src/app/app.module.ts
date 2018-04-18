@@ -64,7 +64,6 @@ import { PaginationService } from "./services/pagination.service";
   ],
   providers: [
         { provide: APP_BASE_HREF, useValue: '/'},
-        //service
         EmployeeService,
         MenuService,
         MenuaccessService,
@@ -76,4 +75,5 @@ import { PaginationService } from "./services/pagination.service";
   ],
   bootstrap: [AppComponent]
 })
+
 export class AppModule { }
