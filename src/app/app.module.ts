@@ -5,7 +5,6 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { NgFlashMessagesModule } from 'ng-flash-messages';
-import { NgxPaginationModule } from 'ngx-pagination';
 
 //module http
 import { HttpClientModule } from '@angular/common/http';
@@ -14,6 +13,8 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { Http, HttpModule } from '@angular/http';
 import { AppRoutingModule } from './app-routing.module';
 import { routingComponents } from './app-routing.module';
+import {NgxPaginationModule} from 'ngx-pagination';
+
 
 //Component Parent
 import { AppComponent } from './app.component';
@@ -36,8 +37,6 @@ import { ProductService } from './services/product.service';
 import { RoleService } from './services/role.service';
 import { CompanyService } from './services/company.service';
 import { UserService } from './services/user.service';
-import { PaginationService } from "./services/pagination.service";
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -66,7 +65,6 @@ import { PaginationService } from "./services/pagination.service";
   ],
   providers: [
         { provide: APP_BASE_HREF, useValue: '/'},
-        //service
         EmployeeService,
         MenuService,
         MenuaccessService,
@@ -74,8 +72,8 @@ import { PaginationService } from "./services/pagination.service";
         RoleService,
         CompanyService,
         UserService,
-        PaginationService,
   ],
   bootstrap: [AppComponent]
 })
+
 export class AppModule { }
