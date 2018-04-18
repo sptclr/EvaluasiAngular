@@ -76,11 +76,10 @@ export class MenuComponent implements OnInit {
   }
 
   onDelete(_id: String) {
-    if (confirm('Are You Sure to delete this record?') === true){
       this.menuService.deleteMenu(_id)
         .subscribe(x => {
           this.menuService.getMenus();
+          this.modalRef.hide();                    
         });
-    }
   }
 }

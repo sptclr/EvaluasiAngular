@@ -5,7 +5,7 @@
   <div class="panel-body">
     <div class="row">
       <div class="form-group col-md-12">
-        <button class="btn btn-primary pull-right">Add New</button>
+        <button class="btn btn-primary pull-right" (click)="openModal(templateAdd)">Add New</button>
       </div>
     </div>
     <ng-template #templateAdd>
@@ -21,13 +21,25 @@
           <div class="row">
             <div class="form-group col-md-12">
               <label for="code">Code</label>
-              <input class="form-control" name="code" #code="ngModel" [(ngModel)]="menuService.selectedMenu.code">
+              <input class="form-control" name="code" placeholder="Auto Generated" readonly >
             </div>
           </div>
           <div class="row">
             <div class="form-group col-md-12">
-              <label for="name">Name</label>
-              <input class="form-control" name="name" #name="ngModel" [(ngModel)]="menuService.selectedMenu.name">
+              <label for="name" class="col-sm-2 control-label">Name</label>
+              <div class="col-md-6">
+                <input class="form-control" 
+                       placeholder="Type menu Name"
+                       required
+                       pattern="^(?=.*[a-z])(?=.*[A-Z])[a-zA-Z]+$"
+                       name="name" 
+                       #name="ngModel" 
+                       [(ngModel)]="menuService.selectedMenu.name">
+                  <div class="help-block" *ngIf="name.errors && (name.dirty || name.touched || name.pattern)">
+                    <div [hidden]=!name.errors.required>menu name is required</div>
+                    <div [hidden]=!name.errors.pattern>menu hanya di isi huruf</div>                    
+                  </div>
+              </div>
             </div>
           </div>
           <div class="row">
