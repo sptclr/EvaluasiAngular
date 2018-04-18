@@ -14,9 +14,7 @@
           <label for="mRoleId" class="col-sm-2 control-label">Role Name</label>
           <div class="col-md-6">
             <select id="mRoleId" name="mRoleId" [(ngModel)]="mRoleId" class="form-control">
-              <option value="Admin" >Admin</option>
-              <option value="Staff">Staff</option>   
-              <option value="Requester">Requester</option>                         
+              <option value="Admin" >Admin</option>                       
             </select>
           </div> 
         </div>
@@ -45,11 +43,11 @@
             <span class="help-block" *ngIf="passwordControl.invalid && passwordControl.touched">password is required</span>
           </div> 
         </div>
-        <div class="form-group">
-          <label for="repassword" class="col-sm-2 control-label">Re type Password</label>
+        <div class="form-group" [class.has-error]="confirmPassword.invalid && confirmPassword.touched">
+          <label for="confirmPassword" class="col-sm-2 control-label">Re type Password</label>
             <div class="col-md-6">
-              <input class="form-control" placeholder="Re type Password" type="password">
-              <span class="help-block" >re type password is required</span>
+              <input class="form-control" placeholder="Re type Password" required type="password" name="confirmPassword" #confirmPassword="ngModel" [(ngModel)]="userService.selectedUser.password">
+            <span class="help-block" *ngIf="confirmPassword.invalid && confirmPassword.touched">re password is required</span>              
             </div> 
         </div>
       
@@ -87,10 +85,7 @@
           <label for="mEmployeeId" class="col-sm-2 control-label">Employee Name</label>
           <div class="col-md-6">
             <select disabled id="mEmployeeId" name="mEmployeeId" [(ngModel)]="mEmployeeId" class="form-control">
-              <option value="Andi Kurnniawan" >Andi Kurniawan</option>
-              <option value="Kurniawan">Kurniawan</option>   
-              <option value="Agustina">Agustina</option>
-              <option value="Andri">Andri</option>                         
+              <option value="Andi Kurnniawan" >Andi Kurniawan</option>                        
             </select>
           </div> 
         </div>
@@ -98,21 +93,12 @@
           <label for="username" class="col-sm-2 control-label">Username</label>
           <div class="col-md-6">
             <input disabled class="form-control" placeholder="Type Username" required id="username" name="username" #usernameControl="ngModel" #username="ngModel" [(ngModel)]="userService.selectedUser.username">
-          <span class="help-block" *ngIf="usernameControl.invalid && usernameControl.touched">username is required</span>
           </div> 
         </div>
         <div class="form-group" [class.has-error]="passwordControl.invalid && passwordControl.touched">
           <label for="password" class="col-sm-2 control-label">Password</label>
           <div class="col-md-6">
             <input disabled class="form-control" placeholder="Type Password" required id="password" type="password" name="password" #passwordControl="ngModel" #password="ngModel"  [(ngModel)]="userService.selectedUser.password">
-            <span class="help-block" *ngIf="passwordControl.invalid && passwordControl.touched">password is required</span>
-          </div> 
-        </div>
-        <div class="form-group">
-          <label for="password" class="col-sm-2 control-label">Password</label>
-          <div class="col-md-6">
-            <input disabled class="form-control" placeholder="Type Password" required id="password" type="password" name="password" ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" required>
-            <span class="help-block" >password is required</span>
           </div> 
         </div>
     </form>
@@ -140,7 +126,7 @@
       <td>{{ user.mRoleId}}</td>
       <td> </td>
       <td> {{ user.username}}</td>
-      <td> {{ user.createdDate}}</td>
+      <td> {{ user.createdDate | date:"medium"}}</td>
       <td> {{ user.createdBy }}</td>
       <td> <button type="button" value="Edit" (click)="onView(view, user._id)">view</button>
         <button type="button" value="Edit" (click)="onEdit(template, user._id)">Edit</button>

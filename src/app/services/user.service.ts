@@ -1,6 +1,7 @@
 //khusus module
 import { Injectable } from '@angular/core';
 import { User} from '../models/user.model';
+import { Role} from '../models/role.model';
 import { HttpClient} from '@angular/common/http';
 import { Http, Response, Headers, RequestOptions, RequestMethod } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
@@ -12,9 +13,12 @@ import 'rxjs/add/operator/toPromise';
 export class UserService {
 
   private _url = 'http://localhost:3000/api/users';
+  private _url1 = 'http://localhost:3000/api/users';
 
   selectedUser: User;
   userList: User [];
+  selectedRole: Role;
+  roleList: Role [];
   constructor(private http: Http) { }
 
   getUsers() {
@@ -23,6 +27,15 @@ export class UserService {
       return data.json() as User[];
     }).toPromise().then(x => {
       this.userList = x;
+    });
+  }
+
+  getRoles() {
+    this.http.get(this._url1)
+    .map((data: Response) => {
+      return data.json() as Role[];
+    }).toPromise().then(x => {
+      this.roleList = x;
     });
   }
 
