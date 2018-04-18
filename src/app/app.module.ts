@@ -13,8 +13,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { Http, HttpModule } from '@angular/http';
 import { AppRoutingModule } from './app-routing.module';
 import { routingComponents } from './app-routing.module';
-import {NgxPaginationModule} from 'ngx-pagination';;
-import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import {NgxPaginationModule} from 'ngx-pagination';
 
 
 //Component Parent
@@ -62,8 +61,7 @@ import { UserService } from './services/user.service';
     ModalModule.forRoot(),
     BsDatepickerModule.forRoot(),
     NgFlashMessagesModule.forRoot(),
-    NgxPaginationModule,
-    Ng2SearchPipeModule,
+    NgxPaginationModule
   ],
   providers: [
         { provide: APP_BASE_HREF, useValue: '/'},
