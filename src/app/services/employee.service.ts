@@ -14,6 +14,7 @@ export class EmployeeService {
   private company_url = 'http://localhost:3000/api/companies';
 
   selectedEmployee: Employee;
+  selectedCompany: Company;
   employeeList: Employee[];
   companyList: Company[];
   constructor(private http: Http) { }
@@ -53,15 +54,17 @@ export class EmployeeService {
   }
 
   patchEmployee(_id, employee: Employee) {
+    const data = JSON.stringify(employee);
+
     const headerOptions = new Headers({'Content-Type':'application/json'});
     const requestOptions = new RequestOptions({method: RequestMethod.Patch, headers: headerOptions});
-    return this.http.patch(this._url + _id , employee, requestOptions).map(x => x.json());
+    return this.http.patch(this._url + '/' + _id , employee, requestOptions).map(x => x.json());
   }
 
-  isDeleteEmployee(_id) {
+  isDeleteEmployee(_id, employee: Employee) {
     const headerOptions = new Headers({'Content-Type':'application/json'});
     const requestOptions = new RequestOptions({method: RequestMethod.Patch, headers: headerOptions});
-    return this.http.patch(this._url + _id , requestOptions).map(x => x.json());
+    return this.http.patch(this._url + '/'  + _id, employee, requestOptions).map(x => x.json());
   }
 
   deleteEmployee(_id) {

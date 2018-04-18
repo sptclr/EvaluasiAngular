@@ -1,8 +1,11 @@
 import { Component, OnInit, TemplateRef, Input } from '@angular/core';
 import { UserService} from '../../services/user.service';
+import { RoleService } from '../../services/role.service';
+import { EmployeeService } from '../../services/employee.service'
+
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { BsModalService } from 'ngx-bootstrap/modal';
-import { NgForm } from '@angular/forms';
+import { NgForm, Validator, FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { User} from '../../models/user.model';
 
 @Component({
@@ -14,11 +17,16 @@ export class UsersComponent implements OnInit {
   modalRef : BsModalRef;
   isNew: Boolean = true;
 
-  constructor(private userService: UserService, private modalService: BsModalService) { }
+  constructor(private userService: UserService,
+              private roleService: RoleService,
+              private employeeService: EmployeeService,
+              private modalService: BsModalService) { }
 
   ngOnInit() {
     this.resetForm();
     this.userService.getUsers()
+    this.roleService.getRoles()
+    this.employeeService.getEmployees()
   }
 
   resetForm(form?: NgForm){
