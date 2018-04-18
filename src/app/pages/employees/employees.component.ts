@@ -16,7 +16,7 @@ export class EmployeesComponent implements OnInit {
 
   modalRef: BsModalRef;
   isNew : Boolean = true;
- 
+  
 
 constructor(private _employeeService: EmployeeService, 
             private modalService: BsModalService, 
