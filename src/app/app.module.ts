@@ -67,7 +67,6 @@ import { UserService } from './services/user.service';
   ],
   providers: [
         { provide: APP_BASE_HREF, useValue: '/'},
-        //service
         EmployeeService,
         MenuService,
         MenuaccessService,
@@ -78,4 +77,5 @@ import { UserService } from './services/user.service';
   ],
   bootstrap: [AppComponent]
 })
+
 export class AppModule { }
