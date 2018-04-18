@@ -1,125 +1,152 @@
-<h3>Products</h3>
-<button type="button" class="btn btn-primary" (click)="openModal(template)">Create New</button><br><br>
+<div class="panel panel-default">
+<div class="panel-heading">
+  <h2 class="panel-title">Products</h2>
+</div>
+<div class="panel-body">
+  <ng-flash-message></ng-flash-message>
+  <button type="button" class="btn btn-primary" (click)="openModal(template)">Add New</button><br><br>
 <ng-template #template>
-  <div class="modal-header">
-    <h4 class="modal-title pull-left">Product</h4>
-    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-        <span aria-hidden="true">&times;</span>
-    </button>
+<div class="modal-header">
+  <h4 class="modal-title pull-left">Product</h4>
+  <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+  </button>
 </div>
 <div class="modal-body">
-  <form class="cat-form" #productForm="ngForm" (ngSubmit)="onSubmit(productForm)">
-      <input type="hidden" name="_id" #_id="ngModel" [(ngModel)]="productService.selectedProduct._id">
+<form class="cat-form" #productForm="ngForm" (ngSubmit)="onSubmit(productForm)">
+    <input type="hidden" name="_id" #_id="ngModel" [(ngModel)]="productService.selectedProduct._id">
+    <div class="row">
+      <div class="form-group col-md-6">
+        <label for="code">Code</label>
+        <input class="form-control" name="code" #code="ngModel" placeholder="Auto-Generated" [(ngModel)]="productService.selectedProduct.code" disabled>
+      </div>
+    </div>
       <div class="row">
-        <div class="form-group col-md-6">
-          <label for="code">Code</label>
-          <input class="form-control" name="code" #code="ngModel" placeholder="Auto-Generated" [(ngModel)]="productService.selectedProduct.code" disabled>
+        <div class="form-group col-md-6" [class.has-error]="nameControl.invalid && nameControl.touched">
+          <label for="name" class="control-label">Name*</label>
+          <input class="form-control" name="name" required id="name" #nameControl="ngModel" #name="ngModel" [(ngModel)]="productService.selectedProduct.name">
+          <span class="help-block" *ngIf="nameControl.invalid && nameControl.touched">name is required</span>
         </div>
       </div>
-        <div class="row">
-          <div class="form-group col-md-6" [class.has-error]="nameControl.invalid && nameControl.touched">
-            <label for="name" class="control-label">Name*</label>
-            <input class="form-control" name="name" required id="name" #nameControl="ngModel" #name="ngModel" [(ngModel)]="productService.selectedProduct.name">
-            <span class="help-block" *ngIf="nameControl.invalid && nameControl.touched">name is required</span>
-          </div>
+      <div class="row">
+        <div class="form-group col-md-6">
+          <label for="description">Description</label>
+          <input class="form-control" name="description" #description="ngModel" [(ngModel)]="productService.selectedProduct.description">
         </div>
-        <div class="row">
-          <div class="form-group col-md-6">
-            <label for="description">Description</label>
-            <input class="form-control" name="description" #description="ngModel" [(ngModel)]="productService.selectedProduct.description">
-          </div>
+      </div>
+      <div class="row">
+        <div class="form-group col-md-6">
+          <label for="createdBy">Created By</label>
+          <input class="form-control" name="createdBy" #createdBy="ngModel" [(ngModel)]="productService.selectedProduct.createdBy">
         </div>
-        <div class="row">
-          <div class="form-group col-md-6">
-            <label for="createdBy">Created By</label>
-            <input class="form-control" name="createdBy" #createdBy="ngModel" [(ngModel)]="productService.selectedProduct.createdBy">
-          </div>
+      </div>
+      <div class="row">
+        <div class="form-group col-md-4">
+          <button type="submit" class = "btn btn-lg btn-block btn-info">Submit</button>
         </div>
-        <div class="row">
-          <div class="form-group col-md-4">
-            <button type="submit" class = "btn btn-lg btn-block btn-info">Submit</button>
-          </div>
-          <div *ngIf="isNew" class="form-group col-md-4">
-            <button type="button" class="btn btn-lg btn-block btn-secondary" (click)="resetForm(productForm)">Reset</button>
-          </div>
-          <div class="form-group col-md-4">
-              <button type="button" class="btn btn-lg btn-block btn-warning" (click)="this.modalRef.hide()">Cancel</button>
-            </div>
+        <div *ngIf="isNew" class="form-group col-md-4">
+          <button type="button" class="btn btn-lg btn-block btn-secondary" (click)="resetForm(productForm)">Reset</button>
         </div>
-    </form>
+        <div class="form-group col-md-4">
+            <button type="button" class="btn btn-lg btn-block btn-warning" (click)="this.modalRef.hide()">Cancel</button>
+          </div>
+      </div>
+  </form>
 </div>
 </ng-template>
 <ng-template #view>
-    <div class="modal-header">
-        <h4 class="modal-title pull-left">Product</h4>
-        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <div class="modal-body">
-        <form class="cat-form" #productForm="ngForm" (ngSubmit)="onSubmit(productForm)">
-            <input type="hidden" name="_id" #_id="ngModel" [(ngModel)]="productService.selectedProduct._id">
+  <div class="modal-header">
+      <h4 class="modal-title pull-left">Product</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+          <span aria-hidden="true">&times;</span>
+      </button>
+  </div>
+  <div class="modal-body">
+      <form class="cat-form" #productForm="ngForm" (ngSubmit)="onSubmit(productForm)">
+          <input type="hidden" name="_id" #_id="ngModel" [(ngModel)]="productService.selectedProduct._id">
+          <div class="row">
+            <div class="form-group col-md-6">
+              <label for="code">Code</label>
+              <input class="form-control" name="code" #code="ngModel" [(ngModel)]="productService.selectedProduct.code" disabled>
+            </div>
+          </div>
             <div class="row">
               <div class="form-group col-md-6">
-                <label for="code">Code</label>
-                <input class="form-control" name="code" #code="ngModel" [(ngModel)]="productService.selectedProduct.code" disabled>
+                <label for="name">Name*</label>
+                <input class="form-control" name="name" #name="ngModel" [(ngModel)]="productService.selectedProduct.name" disabled>
               </div>
             </div>
-              <div class="row">
-                <div class="form-group col-md-6">
-                  <label for="name">Name*</label>
-                  <input class="form-control" name="name" #name="ngModel" [(ngModel)]="productService.selectedProduct.name" disabled>
+            <div class="row">
+              <div class="form-group col-md-6">
+                <label for="description">Description</label>
+                <input class="form-control" name="description" #description="ngModel" [(ngModel)]="productService.selectedProduct.description" disabled>
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-md-4">
+                  <button type="button" class="btn btn-lg btn-block btn-warning" (click)="this.modalRef.hide()">Close</button>
                 </div>
-              </div>
-              <div class="row">
-                <div class="form-group col-md-6">
-                  <label for="description">Description</label>
-                  <input class="form-control" name="description" #description="ngModel" [(ngModel)]="productService.selectedProduct.description" disabled>
-                </div>
-              </div>
-              <div class="row">
-                <div class="form-group col-md-4">
-                    <button type="button" class="btn btn-lg btn-block btn-warning" (click)="this.modalRef.hide()">Close</button>
-                  </div>
-              </div>
-          </form>
-    </div>
+            </div>
+        </form>
+  </div>
 </ng-template>
+
 <table class="table table-bordered">
-  <thead>
-    <tr>
-      <th>No. </th>
-      <th>Product Code</th>
-      <th>Product Name</th>
-      <th>Description</th>
-      <th>Created Date</th>
-      <th>Created By</th>
-      <th>Updated Date</th>
-      <th>Updated By</th>
-      <th>Action</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let product of productService.productList; let i = index">
-      <td>{{ i + 1 }}</td>
-      <td>{{product.code}}</td>
-      <td>{{product.name}}</td>
-      <td>{{product.description}}</td>
-      <td>{{product.createdDate | date:"medium"}}</td>
-      <td>{{product.createdBy}}</td>
-      <td>{{product.updatedDate | date:"medium"}}</td>
-      <td>{{product.updatedBy}}</td>
-      <td>
-        <button type="button" class="btn btn-default btn-sm" value="View" (click)="onEdit(view, product._id)">
-            <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-        </button>
-        <button type="button" class="btn btn-default btn-sm" value="Edit" (click)="onEdit(template, product._id)">
-            <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-        </button>
-        <button type="button" class="btn btn-default btn-sm" value="Delete" (click)="onDelete(product._id)">
-            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-        </button>
-      </td>
-    </tr>
-  </tbody>
+<thead>
+  <tr>
+    <th>No. </th>
+    <th>Product Code</th>
+    <th>Product Name</th>
+    <th>Description</th>
+    <th>Created Date</th>
+    <th>Created By</th>
+    <th>Updated Date</th>
+    <th>Updated By</th>
+    <th>Action</th>
+  </tr>
+</thead>
+<tbody>
+  <tr *ngFor="let product of productService.productList; let i = index">
+    <td>{{ i + 1 }}</td>
+    <td>{{product.code}}</td>
+    <td>{{product.name}}</td>
+    <td>{{product.description}}</td>
+    <td>{{product.createdDate | date:"medium"}}</td>
+    <td>{{product.createdBy}}</td>
+    <td>{{product.updatedDate | date:"medium"}}</td>
+    <td>{{product.updatedBy}}</td>
+    <td>
+      <button type="button" class="btn btn-default btn-sm" value="View" (click)="onEdit(view, product._id)">
+          <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+      </button>
+      <button type="button" class="btn btn-default btn-sm" value="Edit" (click)="onEdit(template, product._id)">
+          <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+      </button>
+      <button type="button" class="btn btn-default btn-sm" value="Delete" (click)="openModalDelete(templateDelete)">
+          <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+          <ng-template #templateDelete>
+            <div class="modal-header">
+              <h4 class="modal-title pull-left">Delete Product</h4>
+              <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <h4 class="text-center">Are you sure to delete this?</h4>
+              <div class="row">
+                <div class="form-group col-md-6">
+                  <button type="button" class="btn btn-block btn-info" (click)="onDelete(product._id)">Delete</button>
+                </div>
+                <div class="form-group col-md-6">
+                  <button type="button" class="btn btn-block btn-warning" (click)="this.modalRef.hide()">Cancel</button>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+      </button>
+    </td>
+  </tr>
+</tbody>
 </table>
+</div>
+</div>
