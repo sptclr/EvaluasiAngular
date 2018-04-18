@@ -26,22 +26,21 @@ export class MenuaccessComponent implements OnInit {
   form: FormGroup;
   checkIfOthersAreSelected: boolean;
 
-  constructor(private _menuAccessService: MenuaccessService,
+  constructor(
     private modalService: BsModalService,
+    private _menuAccessService: MenuaccessService,
     private _roleService: RoleService,
     private _menuService: MenuService,
     private formbuilder: FormBuilder,
     private http: Http,
-    private pagerService: PaginationService
+    private pagerService: PaginationService,
   ) { }
 
   //Pagination
   // array of all items to be paged
   private allItems: any[];
-
   // pager object
   pager: any = {};
-
   // paged items
   pagedItems: any[];
 
@@ -57,7 +56,6 @@ export class MenuaccessComponent implements OnInit {
       .subscribe(data => {
         // set items to json response
         this.allItems = data;
-
         // initialize to page 1
         this.setPage(1);
       });

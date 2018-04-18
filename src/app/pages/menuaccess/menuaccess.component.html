@@ -1,77 +1,10 @@
 <div class="panel panel-default">
+  <!-- Panel Heading -->
   <div class="panel-heading">
     <h2 class="panel-title">List Menu Access</h2>
   </div>
   <div class="panel-body">
-    <div class="row">
-      <div class="form-group col-md-12">
-        <button type="button" class="btn btn-primary pull-right" (click)="openModal(templateAdd)">Add New</button>
-      </div>
-    </div>
-    <!-- MOdal -->
-    <ng-template #templateAdd>
-      <div class="modal-header">
-        <h4 class="modal-title pull-left">Add Menu Access</h4>
-        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form class="menuAccess-form" #menuAccessForm="ngForm" (ngSubmit)="onSubmit(menuAccessForm)">
-          <input type="hidden" name="_id" #_id="ngModel" [(ngModel)]="_menuAccessService.selectedMenuAccessList._id">
-          <!-- Role Code -->
-          <div class="row">
-            <div class="form-group col-md-3">
-              <h4 for="role">*Role Code</h4>
-            </div>
-            <div class="form-group col-md-9">
-              <select name="role" #role="ngModel" [(ngModel)]="_menuAccessService.selectedMenuAccessList.role" class="form-control">
-                <option *ngFor="let option of _roleService.roleList" value="{{option.code}}">{{option.code}}</option>
-              </select>
-            </div>
-          </div>
-          <!-- end Role Code -->
-
-          <!-- Menu Access / Role Name -->
-          <div class="row">
-            <div class="form-group col-md-3">
-              <h4 for="menu">*Role Name</h4>
-            </div>
-            <div class="form-group text-center col-md-9">
-              <!-- checkbox -->
-              <div class="checkbox" name="menu" id="menu" #menu="ngModel" [(ngModel)]="_menuAccessService.selectedMenuAccessList.menu">
-                <h4>
-                  <label *ngFor="let option of _menuService.menuList">
-                    <input type="checkbox" value="{{option.name}}" [checked]>
-                    <span class="cr">
-                      <i class="cr-icon glyphicon glyphicon-ok"></i>
-                    </span>
-                    {{option.name}}
-                  </label>
-                </h4>
-              </div>
-              <!-- end checkbox -->
-
-            </div>
-          </div>
-          <!-- end Menu Access / Role Code -->
-          <!-- button -->
-          <div class="row">
-            <div class="form-group col-md-4">
-              <button type="submit" class="btn btn-lg btn-block btn-info">Submit</button>
-            </div>
-            <div *ngIf="isNew" class="form-group col-md-4">
-              <button type="button" class="btn btn-lg btn-block btn-secondary" (click)="resetForm(menuAccessForm)">Reset</button>
-            </div>
-            <div class="form-group col-md-4">
-              <button type="button" class="btn btn-lg btn-block btn-warning" (click)="this.modalRef.hide()">Cancel</button>
-            </div>
-          </div>
-          <!-- end Buuton -->
-        </form>
-      </div>
-    </ng-template>
-
+    <!-- Form Baris Search -->
     <div class="row">
       <div class="form-group col-md-2">
         <!-- <select name="role" #role="ngModel" [(ngModel)]="_menuAccessService.selectedMenuAccessList.role" class="form-control"> -->
@@ -114,7 +47,7 @@
         <tr *ngFor="let i = index;let item of pagedItems">
           <td class="text-center">{{i+1}}</td>
           <td>{{item.role.code}}</td>
-          <td>{{item.menu.name}}</td>
+          <td>{{item.role.name}}</td>
           <td>{{item.createdDate | date : "medium"}}</td>
           <td>{{item.createdBy}}</td>
           <td>{{item.updatedBy}}</td>
@@ -136,6 +69,7 @@
               <div class="modal-body">
                 <form class="menuAccess-form" #menuAccessForm="ngForm" (ngSubmit)="onSubmit(menuAccessForm)">
                   <input type="hidden" name="_id" #_id="ngModel" [(ngModel)]="_menuAccessService.selectedMenuAccessList._id">
+
                   <!-- Role Code -->
                   <div class="row">
                     <div class="form-group col-md-3">
@@ -145,6 +79,7 @@
                       <select name="role" #role="ngModel" [(ngModel)]="_menuAccessService.selectedMenuAccessList.role" class="form-control" disabled>
                         <option *ngFor="let option of _roleService.roleList" value="{{option.code}}">{{option.code}}</option>
                       </select>
+
                     </div>
                   </div>
                   <!-- end Role Code -->
@@ -152,7 +87,7 @@
                   <!-- Menu Access / Role Name -->
                   <div class="row">
                     <div class="form-group col-md-3">
-                      <h4 for="menu">*Role Name</h4>
+                      <h4 for="menu">*Menu Name</h4>
                     </div>
                     <div class="form-group col-md-9">
                       <!-- checkbox -->
@@ -205,10 +140,9 @@
                       <h4 for="role">*Role Code</h4>
                     </div>
                     <div class="form-group col-md-9">
-                      <!-- <select name="role" #role="ngModel" [(ngModel)]="_menuAccessService.selectedMenuAccessList.role" class="form-control">
+                      <select name="role" #role="ngModel" [(ngModel)]="_menuAccessService.selectedMenuAccessList.role" class="form-control">
                         <option *ngFor="let option of _roleService.roleList" value="{{option.code}}">{{option.code}}</option>
-                      </select> -->
-                      <input class="form-control" name="role" #role="ngModel" [(ngModel)]="_menuAccessService.selectedMenuAccessList.role">
+                      </select>
                     </div>
                   </div>
                   <!-- end Role Code -->
@@ -280,25 +214,23 @@
       </tbody>
     </table>
     <!-- end table -->
-      <!-- pager -->
-      <ul *ngIf="pager.pages && pager.pages.length" class="pagination">
-          <li [ngClass]="{disabled:pager.currentPage === 1}">
-            <a (click)="setPage(1)">First</a>
-          </li>
-          <li [ngClass]="{disabled:pager.currentPage === 1}">
-            <a (click)="setPage(pager.currentPage - 1)">Previous</a>
-          </li>
-          <li *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
-            <a (click)="setPage(page)">{{page}}</a>
-          </li>
-          <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
-            <a (click)="setPage(pager.currentPage + 1)">Next</a>
-          </li>
-          <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
-            <a (click)="setPage(pager.totalPages)">Last</a>
-          </li>
-        </ul>
+    <!-- pager -->
+    <ul *ngIf="pager.pages && pager.pages.length" class="pagination">
+      <li [ngClass]="{disabled:pager.currentPage === 1}">
+        <a (click)="setPage(1)">First</a>
+      </li>
+      <li [ngClass]="{disabled:pager.currentPage === 1}">
+        <a (click)="setPage(pager.currentPage - 1)">Previous</a>
+      </li>
+      <li *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
+        <a (click)="setPage(page)">{{page}}</a>
+      </li>
+      <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+        <a (click)="setPage(pager.currentPage + 1)">Next</a>
+      </li>
+      <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+        <a (click)="setPage(pager.totalPages)">Last</a>
+      </li>
+    </ul>
   </div>
 </div>
-
-
