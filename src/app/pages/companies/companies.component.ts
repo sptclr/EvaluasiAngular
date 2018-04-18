@@ -25,6 +25,7 @@ export class CompaniesComponent implements OnInit {
     this.isNew = true;
     this.companyService.selectedCompany = new Company();
   }
+  // open modal
   openModal(template: TemplateRef<any>){
     this.modalRef = this.modalService.show(template);
     this.resetForm();
