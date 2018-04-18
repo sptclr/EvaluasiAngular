@@ -18,19 +18,7 @@
       </div>
       <div class="modal-body">
         <form class="role-form" #roleForm="ngForm" (ngSubmit)="onSubmit(roleForm)">
-            <ng-flash-message></ng-flash-message>
-          <!-- <input type="hidden" name="_id" #_id="ngModel" [(ngModel)]="_categoryService.selectedCategory._id"> -->
-          <!-- <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert alert-danger">
-            <div *ngIf="name.errors.required">
-              Name is required.
-            </div>
-            <div *ngIf="name.errors.minlength">
-              Name must be at least 4 characters long.
-            </div>
-            <div *ngIf="name.errors.forbiddenName">
-              Name cannot be Bob.
-            </div>
-          </div> -->
+          <ng-flash-message></ng-flash-message>
           <div class="row">
             <div class="form-group col-md-12">
               <label for="code">Code</label>
@@ -38,27 +26,30 @@
             </div>
           </div>
           <div class="row">
-            <div class="form-group col-md-12">
+            <div class="form-group col-md-12" [class.has-error]="nameControl.invalid && nameControl.touched">
               <label for="name">Name</label>
-              <input class="form-control" name="name" id="name" #name="ngModel" [(ngModel)]="_roleService.selectedRole.name" required>
+              <input class="form-control" name="name" id="name" #name="ngModel" [(ngModel)]="_roleService.selectedRole.name" required pattern="[a-zA-Z0-9 ]*"
+                #nameControl="ngModel">
+              <span class="help-block" *ngIf="nameControl.invalid && nameControl.touched">Role Name is required</span>
             </div>
           </div>
           <div class="row">
-            <div class="form-group col-md-12">
+            <div class="form-group col-md-12" [class.has-error]="descriptionControl.invalid && descriptionControl.touched">
               <label for="description">Description</label>
               <input class="form-control" name="description" id="description" #description="ngModel" [(ngModel)]="_roleService.selectedRole.description"
-                required>
+                required #descriptionControl="ngModel">
+              <span class="help-block" *ngIf="descriptionControl.invalid && descriptionControl.touched">Description is required</span>
             </div>
           </div>
           <div class="row">
             <div class="form-group col-md-4">
-              <button type="submit" class="btn btn-lg btn-block btn-info">Submit</button>
-            </div>
-            <div *ngIf="isNew" class="form-group col-md-4">
-              <button type="button" class="btn btn-lg btn-block btn-secondary" (click)="resetForm(roleForm)">Reset</button>
+              <button type="submit" [disabled]="roleForm.invalid" class="btn btn-block btn-info">Submit</button>
             </div>
             <div class="form-group col-md-4">
-              <button type="button" class="btn btn-lg btn-block btn-warning" (click)="this.modalRef.hide()">Cancel</button>
+              <button type="button" class="btn btn-block btn-secondary" (click)="resetForm(roleForm)">Reset</button>
+            </div>
+            <div class="form-group col-md-4">
+              <button type="button" class="btn btn-block btn-warning" (click)="this.modalRef.hide()">Cancel</button>
             </div>
           </div>
         </form>
@@ -101,8 +92,8 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let role of _roleService.roleList; let i = index">
-          <td class="text-center">{{i+1}}</td>
+        <tr *ngFor="let role of _roleService.roleList | paginate: { itemsPerPage: 5, currentPage: page} ; let i = index">
+          <td class="text-center">{{(page-1)*5+i+1}}</td>
           <td>{{role.code}}</td>
           <td>{{role.name}}</td>
           <td>{{role.createdBy}}</td>
@@ -120,7 +111,51 @@
                 <div class="modal-body">
                   <form class="role-form" #roleForm="ngForm">
                     <input type="hidden" name="_id" #_id="ngModel" [(ngModel)]="_roleService.selectedRole._id">
-                    <div class="row">
+                    <table class="table table-bordered table-hover">
+                      <tr>
+                        <td>
+                          <strong>Code :</strong>
+                        </td>
+                        <td>{{role.code}}</td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <strong>Name :</strong>
+                        </td>
+                        <td>{{role.name}}</td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <strong>Description :</strong>
+                        </td>
+                        <td>{{role.description}}</td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <strong>Created Date :</strong>
+                        </td>
+                        <td>{{role.createdDate | date : "d-MMM-y h:mm:ss a"}}</td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <strong>Created By :</strong>
+                        </td>
+                        <td>{{role.createdBy}}</td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <strong>Updated Date :</strong>
+                        </td>
+                        <td>{{role.updatedDate | date : "d-MMM-y h:mm:ss a"}}</td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <strong>Updated By :</strong>
+                        </td>
+                        <td>{{role.updateBy}}</td>
+                      </tr>
+                    </table>
+                    <!-- <div class="row">
                       <div class="form-group col-md-3">
                         <label for="code">Code</label>
                       </div>
@@ -149,8 +184,7 @@
                         <label for="createdDate">Created Date</label>
                       </div>
                       <div class="form-group col-md-9">
-                        <!-- <input class="form-control" readonly name="createdDate" #createdDate="ngModel" [(ngModel)]="_roleService.selectedRole.createdDate"> -->
-                        <p>{{role.createdDate | date : "d-MMM-y h:mm:ss a"}}</p>
+                        <input class="form-control" readonly name="createdDate" #createdDate="ngModel" [(ngModel)]="_roleService.selectedRole.createdDate"> 
                       </div>
                     </div>
                     <div class="row">
@@ -166,8 +200,7 @@
                         <label for="updatedDate">Updated Date</label>
                       </div>
                       <div class="form-group col-md-9">
-                        <!-- <input class="form-control" readonly name="updatedDate" #updatedDate="ngModel" [(ngModel)]="_roleService.selectedRole.updatedDate"> -->
-                        <p>{{role.updatedDate | date : "d-MMM-y h:mm:ss a"}}</p>
+                        <input class="form-control" readonly name="updatedDate" #updatedDate="ngModel" [(ngModel)]="_roleService.selectedRole.updatedDate">
                       </div>
                     </div>
                     <div class="row">
@@ -177,7 +210,7 @@
                       <div class="form-group col-md-9">
                         <input class="form-control" readonly name="updatedBy" #updatedBy="ngModel" [(ngModel)]="_roleService.selectedRole.updatedBy">
                       </div>
-                    </div>
+                    </div> -->
                     <div class="row">
                       <div class="form-group col-md-12">
                         <button type="button" class="btn btn-lg btn-block btn-warning" (click)="this.modalRef.hide()">Close</button>
@@ -219,10 +252,10 @@
                     </div>
                     <div class="row">
                       <div class="form-group col-md-6">
-                        <button type="submit" class="btn btn-lg btn-block btn-info">Update</button>
+                        <button type="submit" class="btn btn-block btn-info">Update</button>
                       </div>
                       <div class="form-group col-md-6">
-                        <button type="button" class="btn btn-lg btn-block btn-warning" (click)="this.modalRef.hide()">Cancel</button>
+                        <button type="button" class="btn btn-block btn-warning" (click)="this.modalRef.hide()">Cancel</button>
                       </div>
                     </div>
                   </form>
@@ -255,5 +288,8 @@
         </tr>
       </tbody>
     </table>
+    <div class="text-center">
+      <pagination-controls (pageChange)="page = $event"></pagination-controls>
+    </div>
   </div>
 </div>

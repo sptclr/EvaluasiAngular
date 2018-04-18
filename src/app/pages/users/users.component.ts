@@ -7,6 +7,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { NgForm, Validator, FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { User} from '../../models/user.model';
+import { NgFlashMessageService } from 'ng-flash-messages';
 
 @Component({
   selector: 'app-users',
@@ -20,6 +21,7 @@ export class UsersComponent implements OnInit {
   constructor(private userService: UserService,
               private roleService: RoleService,
               private employeeService: EmployeeService,
+              private ngFlashMessageService: NgFlashMessageService,             
               private modalService: BsModalService) { }
 
   ngOnInit() {
@@ -49,14 +51,13 @@ export class UsersComponent implements OnInit {
           this.userService.getUsers();
           this.resetForm(form);
           this.modalRef.hide();
-        })
-    }else {
-      this.userService.patchUser(form.value._id, form.value)
-        .subscribe(data => {
-          this.userService.getUsers();
-          this.resetForm(form);
-          this.modalRef.hide();
-      });
+          this.ngFlashMessageService.showFlashMessage({
+            messages: ["Data berhasil disimpan"],
+            dismissible: true,
+            timeout: false,
+            type: 'success'
+          })
+      })
     }
   }
 
@@ -72,12 +73,11 @@ export class UsersComponent implements OnInit {
     this.isNew = false;
   }
 
-  onDelete(_id: String) {
-    if ( confirm('Are You Sure to delete thid record?') === true) {
-      this.userService.deleteUser(_id)
+  onDelete(_id) {
+      this.userService.isDeleteUser(_id)
         .subscribe(x => {
           this.userService.getUsers();
+          this.modalRef.hide();          
         });
-    }
   }
 }
