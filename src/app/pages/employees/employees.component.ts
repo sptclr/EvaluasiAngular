@@ -50,16 +50,12 @@ constructor(private _employeeService: EmployeeService,
         this._employeeService.getEmployees();
         this.resetForm(form);
         this.modalRef.hide();
-        // this.ngFlashMessageService.showFlashMessage({
-        //   // Array of messages each will be displayed in new line
-        //   messages: ["Yah! i'm alive"], 
-        //   // Whether the flash can be dismissed by the user defaults to false
-        //   dismissible: true, 
-        //   // Time after which the flash disappears defaults to 2000ms
-        //   timeout: false,
-        //   // Type of flash message, it defaults to info and success, warning, danger types can also be used
-        //   type: 'danger'
-        // });
+        this.ngFlashMessageService.showFlashMessage({
+          messages: ["Data Saved!! New Employee has been Added"],
+          dismissible: true,
+          timeout: false,
+          type: 'success'
+        })
       });
     }
     else{
@@ -68,6 +64,7 @@ constructor(private _employeeService: EmployeeService,
         this._employeeService.getEmployees();
         this.resetForm(form);
         this.modalRef.hide();
+        
       });
     }
     
@@ -76,6 +73,12 @@ constructor(private _employeeService: EmployeeService,
   onEdit(template: TemplateRef<any>, _id: String) {
     this._employeeService.getEmployee(_id);
     this.openModalEdit(template);
+    this.ngFlashMessageService.showFlashMessage({
+      messages: ["Data Updated!! Data employee has been updated"],
+      dismissible: true,
+      timeout: false,
+      type: 'success'
+    })
     
   }
 
@@ -91,12 +94,14 @@ constructor(private _employeeService: EmployeeService,
       this._employeeService.isDeleteEmployee(_id, employee)
       .subscribe(x => {
         this._employeeService.getEmployees();
+        this.ngFlashMessageService.showFlashMessage({
+          messages: ["Data Deleted!!"],
+          dismissible: true,
+          timeout: false,
+          type: 'success'
+        })
       });
-      // form.value.isDelete=true;
-      // this._employeeService.patchEmployee(_id, form.value)
-      // .subscribe(data => {
-      //   this._employeeService.getEmployees();
-      // });
+      
     }
     }
   

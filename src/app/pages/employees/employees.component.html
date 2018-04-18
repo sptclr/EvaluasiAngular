@@ -5,6 +5,7 @@
 
   <!-- Button Add New -->
   <div class="panel-body">
+      <ng-flash-message></ng-flash-message>
     <div class="row">
       <div class="form-group col-md-12">
         <button type="button" class="btn btn-primary pull-right" (click)="openModalAdd(templateAdd)">Add New</button>
@@ -27,18 +28,27 @@
                      [class.has-error]="code.invalid && code.touched">
                   <label for="code">*EmployeeIdNumber</label>
                   <input class=form-control  
-                         placeholder="Type Employee Id Number" 
+                         placeholder="Type Employee Id Number"
+                         pattern="[0-9]+.[0-9]+.[0-9]+.[0-9-.]+$" 
                          name="code" 
                          #code="ngModel" 
                          [(ngModel)]="_employeeService.selectedEmployee.code" 
-                         required minlength="4" >
-                  <span class="help-block" *ngIf="code.invalid && code.touched">username is required</span>
+                         required >
+                  <span class="help-block" *ngIf="code.invalid && code.touched">Employee Id Number is required</span>
+                  <div [hidden]=!code.errors.pattern>Nik combination required</div>
                     </div>
 
-                  <div class="form-group col-md-6">
+                  <div class="form-group col-md-6"
+                       [class.has-error]="mCompanyId.invalid && mCompanyId.touched">
                     <label for="mCompanyId">*Company Name</label>
-                    <select class="form-control" name="mCompanyId" id="mCompanyId" #mCompanyId="ngModel" [(ngModel)]="_employeeService.companyList.mCompanyId">
+                    <select class="form-control" 
+                            name="mCompanyId" 
+                            id="mCompanyId" 
+                            #mCompanyId="ngModel" 
+                            [(ngModel)]="_employeeService.companyList.mCompanyId"
+                            required>
                       <option *ngFor="let option of _employeeService.companyList" value="{{option._id}}">{{option.name}}</option>
+                      <span class="help-block" *ngIf="mCompanyId.invalid && mCompanyId.touched">Employee Id Number is required</span>
                     </select>
 
                     <!-- <select class="form-control" name="mCompanyId" id="mCompanyId"  #mCompanyId="ngModel" [(ngModel)]="_employeeService.selectedCompany.mCompanyId">
@@ -46,10 +56,16 @@
                     </select> -->
                   </div>
 
-                  <div class="form-group col-md-6">
+                  <div class="form-group col-md-6" 
+                       [class.has-error]="firstName.invalid && firstName.touched">
                     <label for="firstName">*First Name </label>
-                    <input class=form-control placeholder=TypeFirstName name="firstName" #firstName="ngModel" [(ngModel)]="_employeeService.selectedEmployee.firstName" required minlength="2"
-                    appForbiddenName="bob" >
+                    <input class=form-control 
+                           placeholder=TypeFirstName 
+                           name="firstName" 
+                           #firstName="ngModel" 
+                           [(ngModel)]="_employeeService.selectedEmployee.firstName" 
+                           required>
+                    <span class="help-block" *ngIf="firstName.invalid && firstName.touched">username is required</span>
                       </div>
                   
                   <div class="form-group col-md-6">
@@ -57,26 +73,15 @@
                         <input required  
                                class=form-control 
                                placeholder= "Type Email"  
+                               pattern="[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+[a-zA-Z0-9-.]+$"
                                name="email" 
                                #email="ngModel" 
-                               [(ngModel)]="_employeeService.selectedEmployee.email"  
-                               type="text" 
-                               pattern="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+[a-zA-Z0-9-.]+$">
+                               [(ngModel)]="_employeeService.selectedEmployee.email"  >
                         <div class="help-block" *ngIf="email.errors.required && email.touched">
-                        <div [hidden]=!email.errors.minlength>min length 8 char</div>
-                        <!-- <div [hidden]=!email.errors.pattern>Username combination requiredr</div> -->
+                        <div [hidden]=!email.errors.pattern>Email combination required</div>
                       </div>
                     </div>
                           
-                               <!-- <span class="help-block" *ngIf="email.errors?.required && email.touched">
-                            Email is required
-                          </span>
-                          <span class="help-block" *ngIf="email.errors?.email && email.touched">
-                            Email is invalid
-                          </span> -->
-                    
-                      
-
                   <div class="form-group col-md-6">
                     <label for="lastName">lastName</label>
                     <input class=form-control placeholder=TypelastName name="lastName" #lastName="ngModel" [(ngModel)]="_employeeService.selectedEmployee.lastName" required minlength="4"
@@ -172,7 +177,11 @@
 
                         <div class="form-group col-md-6">
                           <label for="mCompanyId">*Company Name</label>
-                          <input class="form-control" readonly name="mCompanyId" #mCompanyId="ngModel" [(ngModel)]="_employeeService.selectedEmployee.mCompanyId">
+                          <input class="form-control" 
+                                 name="mCompanyId" 
+                                 #mCompanyId="ngModel" 
+                                 [(ngModel)]="_employeeService.selectedEmployee.mCompanyId"
+                                 readonly>
                         </div>
                       
                         <div class="form-group col-md-6">
@@ -216,22 +225,39 @@
                     <form class="employee-form" #employeeForm="ngForm" (ngSubmit)="onSubmit(employeeForm)">
                       <input type="hidden" name="_id" #_id="ngModel" [(ngModel)]="_employeeService.selectedEmployee._id">
                       <div class="row">
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-6"
+                             [class.has-error]="code.invalid && code.touched">
                           <label for="code">*EmployeeIdNumber</label>
-                          <input class="form-control"  name="code" #code="ngModel" [(ngModel)]="_employeeService.selectedEmployee.code"  required minlength="12"
-                          appForbiddenName="bob">
+                          <input required
+                                 class="form-control"
+                                 name="code" 
+                                 #code="ngModel" 
+                                 [(ngModel)]="_employeeService.selectedEmployee.code" >
+                          <span class="help-block" *ngIf="code.invalid && code.touched">Employee Id Number is required</span>
                         </div>
                      
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-6" 
+                             [class.has-error]="mCompanyId.invalid && mCompanyId.touched">
                             <label for="mCompanyId">*Company Name</label>
-                            <select class="form-control" name="mCompanyId" id="mCompanyId" #mCompanyId="ngModel" [(ngModel)]="_employeeService.companyList.mCompanyId">
+                            <select class="form-control" 
+                                    name="mCompanyId" 
+                                    id="mCompanyId" 
+                                    #mCompanyId="ngModel" 
+                                    [(ngModel)]="_employeeService.companyList.mCompanyId"
+                                    required>
                               <option *ngFor="let option of _employeeService.companyList" value="{{option._id}}">{{option.name}}</option>
                             </select>
+                            <span class="help-block" *ngIf="mCompanyId.invalid && mCompanyId.touched">Company Name is required</span>
                           </div>
                       
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-6"
+                             [class.has-error]="code.invalid && code.touched">
                           <label for="firstName">*First Name</label>
-                          <input class="form-control" name="firstName" #firstName="ngModel" [(ngModel)]="_employeeService.selectedEmployee.firstName">
+                          <input class="form-control"
+                                 name="firstName" 
+                                 #firstName="ngModel" 
+                                 [(ngModel)]="_employeeService.selectedEmployee.firstName"
+                                 required>
                         </div>
                       
                      
@@ -241,15 +267,23 @@
                         </div>
                       
                         <div class="form-group col-md-6">
-                          <label for="email">Email</label>
-                          <input class="form-control" name="email" #email="ngModel" [(ngModel)]="_employeeService.selectedEmployee.email">
+                          <label for="email" class="control-label">Email</label>
+                          <input class="form-control"
+                                required 
+                                 pattern="[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+[a-zA-Z0-9-.]+$"
+                                 name="email" 
+                                 #email="ngModel" 
+                                 [(ngModel)]="_employeeService.selectedEmployee.email">
+                          <div class="help-block" *ngIf="email.errors.required && email.touched">
+                            <div [hidden]=!email.errors.pattern>Email combination required</div>
+                          </div>
                         </div>
                       </div>
 
 
                         <div class="row">
                         <div class="form-group col-md-3">
-                            <button type="submit" class="btn btn-lg btn-block btn-info">Update</button>
+                            <button type="submit"  class="btn btn-lg btn-block btn-info">Update</button>
                           </div>
                         <div class="form-group col-md-3">
                           <button type="button" class="btn btn-lg btn-block btn-warning" (click)="this.modalRef.hide()">Close</button>

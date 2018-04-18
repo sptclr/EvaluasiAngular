@@ -255,7 +255,7 @@
                     </div>
 
                     <div class="modal-footer">
-                      <button type="submit" class="btn btn-default">Submit</button>
+                      <button type="submit" class="btn btn-default">Update</button>
                       <button *ngIf="isNew" type="button" class="btn btn-primary" (click)="resetForm(companyForm)">Reset</button>
                       <button type="button" class="btn btn-warning" (click)="this.modalRef.hide()">Cancel</button>
                     </div>
@@ -264,6 +264,7 @@
                 </div>
               </ng-template>
             </button>
+
             <button type="button" class="btn btn-default btn-sm" (click)="openModalDelete(templateDelete)">
               <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
 
@@ -286,7 +287,9 @@
                   </div>
                 </div>
               </ng-template>
+
             </button>
+
           </td>
         </tr>
       </tbody>
