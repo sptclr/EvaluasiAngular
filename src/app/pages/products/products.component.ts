@@ -29,9 +29,6 @@ export class ProductsComponent implements OnInit {
     this.modalRef = this.modalService.show(template);
     this.resetForm();
   }
-  openModalDelete(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template);
-  }
   onEdit(template: TemplateRef<any>, _id : String){
     this.productService.getProduct(_id);
     this.openModal(template);
@@ -55,10 +52,12 @@ export class ProductsComponent implements OnInit {
     }
   }
   onDelete(_id : String){
+    if ( confirm('Are you sure to delete this record?') === true) {
     this.productService.deleteProduct(_id)
         .subscribe(x => {
           this.productService.getProducts();
           this.modalRef.hide();
         })
+    }
   }
 }

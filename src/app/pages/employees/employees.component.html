@@ -1,6 +1,6 @@
 <div class="panel panel-default">
   <div class="panel-heading">
-    <h2 class="panel-title">List Roles</h2>
+    <h2 class="panel-title">List Employee</h2>
   </div>
 
   <!-- Button Add New -->
@@ -25,15 +25,19 @@
             <div class="row">
                 <div class="form-group col-md-6">
                   <label for="code">*EmployeeIdNumber</label>
-                  <input class=form-control type="number" placeholder=TypeEmployeeIdNumber name="code" #code="ngModel" [(ngModel)]="_employeeService.selectedEmployee.code" required minlength="4"
+                  <input class=form-control  placeholder=TypeEmployeeIdNumber name="code" #code="ngModel" [(ngModel)]="_employeeService.selectedEmployee.code" required minlength="4"
                   appForbiddenName="bob" >
                     </div>
 
                   <div class="form-group col-md-6">
                     <label for="mCompanyId">*Company Name</label>
-                    <select class="form-control" name="mCompanyId" id="mCompanyId" #mCompanyId="ngModel" [(ngModel)]="_employeeService.selectedEmployee.mCompanyId">
-                      <option *ngFor="let option of _employeeService.employeeList" value="{{option.mCompanyId}}">{{option.mCompanyId}}</option>
+                    <select class="form-control" name="mCompanyId" id="mCompanyId" #mCompanyId="ngModel" [(ngModel)]="_employeeService.companyList.mCompanyId">
+                      <option *ngFor="let option of _employeeService.companyList" value="{{option._id}}">{{option.name}}</option>
                     </select>
+
+                    <!-- <select class="form-control" name="mCompanyId" id="mCompanyId"  #mCompanyId="ngModel" [(ngModel)]="_employeeService.selectedCompany.mCompanyId">
+                      <option *ngFor="let option of _employeeService.companyList"  value="{{option.code}}">{{option.name}}</option>
+                    </select> -->
                   </div>
 
                   <div class="form-group col-md-6">
@@ -42,10 +46,18 @@
                     appForbiddenName="bob" >
                       </div>
                   
-                  <div class="form-group col-md-6">
-                    <label for="email">Email</label>
-                    <input class=form-control placeholder=TypeEmail name="email" #email="ngModel" [(ngModel)]="_employeeService.selectedEmployee.email" required minlength="4"
-                    appForbiddenName="bob" >
+                  <div class="form-group col-md-6"
+                    [class.has-error]= "email.invalid && email.touched">
+                        <label for="email" class="control-label">Email</label>
+                        <input required [email]:"employee.email!==''" class=form-control placeholder=TypeEmail  name="email" #email="ngModel" [(ngModel)]="_employeeService.selectedEmployee.email"  
+                        type="text" >
+                          <span class="help-block" *ngIf="email.errors?.required && email.touched">
+                            Email is required
+                          </span>
+                          <span class="help-block" *ngIf="email.errors?.email && email.touched">
+                            Email is invalid
+                          </span>
+                    
                       </div>
 
                   <div class="form-group col-md-6">
@@ -80,8 +92,9 @@
                 <input class=form-control placeholder=EmployeeName name="firstName" #firstName="ngModel" [(ngModel)]="_employeeService.selectedEmployee.firstName"> 
               </div>
           <div class="form-group col-md-2">
-            <select class="form-control" name="mCompanyId" id="mCompanyId" #mCompanyId="ngModel" [(ngModel)]="_employeeService.selectedEmployee.mCompanyId">
-              <option *ngFor="let option of _employeeService.employeeList" placeholder=-SelectCompanyName- value="{{option.mCompanyId}}">{{option.mCompanyId}}</option>
+            <select class="form-control" name="mCompanyId" id="mCompanyId"  #mCompanyId="ngModel" [(ngModel)]="_employeeService.selectedCompany.mCompanyId">
+              
+              <option *ngFor="let option of _employeeService.companyList"  value="{{option.code}}">{{option.name}}</option>
             </select>
           </div>
           <div class="form-group col-md-2">
@@ -137,7 +150,7 @@
                       <div class="row">
                         <div class="form-group col-md-6">
                           <label for="code">*EmployeeIdNumber</label>
-                          <input class="form-control" readonly name="code" #code="ngModel" [(ngModel)]="_employeeService.selectedEmployee.code">
+                          <input class="form-control" readonly name="code" #code="ngModel" [(ngModel)]="_employeeService.selectedEmployee.code" >
                         </div>
 
                         <div class="form-group col-md-6">
@@ -171,7 +184,7 @@
                   </div>
                 </ng-template>
               </button>
-              <!-- End Search Icon -->
+              <!-- End View Icon -->
        <!-- EDIT ICON -->
        <button type="button" class="btn btn-default btn-sm" (click)="onEdit(templateEdit, employee._id)">
           <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
@@ -183,12 +196,13 @@
                     </button>
                   </div>
                   <div class="modal-body">
-                    <form class="employee-form" #employeeForm="ngForm">
+                    <form class="employee-form" #employeeForm="ngForm" (ngSubmit)="onSubmit(employeeForm)">
                       <input type="hidden" name="_id" #_id="ngModel" [(ngModel)]="_employeeService.selectedEmployee._id">
                       <div class="row">
                         <div class="form-group col-md-6">
                           <label for="code">*EmployeeIdNumber</label>
-                          <input class="form-control" name="code" #code="ngModel" [(ngModel)]="_employeeService.selectedEmployee.code">
+                          <input class="form-control"  name="code" #code="ngModel" [(ngModel)]="_employeeService.selectedEmployee.code" type="number" required minlength="12"
+                          appForbiddenName="bob">
                         </div>
                      
                         <div class="form-group col-md-6">
@@ -229,7 +243,7 @@
         <!-- END EDIT ICON -->
        
             <!-- DELETE ICON -->
-            <button type="button" class="btn btn-default btn-sm" (click)="onDelete(employee._id, employeeForm)">
+            <button type="button" class="btn btn-default btn-sm" (click)="onDelete(employee._id, employee)">
               <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
               <ng-template #templateDelete>
                 <div class="modal-header">
