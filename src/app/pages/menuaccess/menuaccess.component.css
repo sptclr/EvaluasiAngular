@@ -1,14 +1,9 @@
-
-label{
+.checkbox label, .radio label{
     display: flex;
-    margin: 10px 0px;
+    margin-bottom: 1em;
 }
-.checkbox label:after, 
-.radio label:after {
-    content: '';
-    display: table;
-    clear: both;
-}
+
+
 
 .checkbox .cr,
 .radio .cr {
@@ -60,4 +55,10 @@ label{
 .checkbox label input[type="checkbox"]:disabled + .cr,
 .radio label input[type="radio"]:disabled + .cr {
     opacity: .5;
+}
+
+.checkbox[_ngcontent-c1] .cr[_ngcontent-c1] .cr-icon[_ngcontent-c1], .radio[_ngcontent-c1] .cr[_ngcontent-c1] .cr-icon[_ngcontent-c1]{
+    top: 0;
+    left: 10%;
+    font-size: 1em;
 }

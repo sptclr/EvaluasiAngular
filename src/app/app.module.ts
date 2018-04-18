@@ -13,6 +13,9 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { Http, HttpModule } from '@angular/http';
 import { AppRoutingModule } from './app-routing.module';
 import { routingComponents } from './app-routing.module';
+import {NgxPaginationModule} from 'ngx-pagination';;
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
+
 
 //Component Parent
 import { AppComponent } from './app.component';
@@ -35,8 +38,6 @@ import { ProductService } from './services/product.service';
 import { RoleService } from './services/role.service';
 import { CompanyService } from './services/company.service';
 import { UserService } from './services/user.service';
-import { PaginationService } from "./services/pagination.service";
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -60,7 +61,9 @@ import { PaginationService } from "./services/pagination.service";
     BsDropdownModule.forRoot(),
     ModalModule.forRoot(),
     BsDatepickerModule.forRoot(),
-    NgFlashMessagesModule.forRoot()
+    NgFlashMessagesModule.forRoot(),
+    NgxPaginationModule,
+    Ng2SearchPipeModule,
   ],
   providers: [
         { provide: APP_BASE_HREF, useValue: '/'},
@@ -72,7 +75,6 @@ import { PaginationService } from "./services/pagination.service";
         RoleService,
         CompanyService,
         UserService,
-        PaginationService,
   ],
   bootstrap: [AppComponent]
 })

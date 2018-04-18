@@ -79,20 +79,20 @@ export class RolesComponent implements OnInit {
     this.modalRef = this.modalService.show(template);
   }
 
-  // onDelete(_id) {
-  //   this._roleService.deleteRole(_id)
-  //     .subscribe(x => {
-  //       this._roleService.getRoles();
-  //       this.modalRef.hide();
-  //     });
-  // }
   onDelete(_id) {
-    this._roleService.isDeleteRole(_id)
+    this._roleService.deleteRole(_id)
       .subscribe(x => {
         this._roleService.getRoles();
         this.modalRef.hide();
       });
   }
+  // onDelete(_id) {
+  //   this._roleService.isDeleteRole(_id)
+  //     .subscribe(x => {
+  //       this._roleService.getRoles();
+  //       this.modalRef.hide();
+  //     });
+  // }
 
 
 }
