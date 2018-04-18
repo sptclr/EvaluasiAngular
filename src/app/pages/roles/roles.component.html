@@ -149,7 +149,8 @@
                         <label for="createdDate">Created Date</label>
                       </div>
                       <div class="form-group col-md-9">
-                        <input type="text" class="form-control" readonly name="createdDate" #createdDate="ngModel" [(ngModel)]="_roleService.selectedRole.createdDate">
+                        <!-- <input class="form-control" readonly name="createdDate" #createdDate="ngModel" [(ngModel)]="_roleService.selectedRole.createdDate"> -->
+                        <p>{{role.createdDate | date : "d-MMM-y h:mm:ss a"}}</p>
                       </div>
                     </div>
                     <div class="row">
@@ -165,7 +166,8 @@
                         <label for="updatedDate">Updated Date</label>
                       </div>
                       <div class="form-group col-md-9">
-                        <input class="form-control" readonly name="updatedDate" #updatedDate="ngModel" [(ngModel)]="_roleService.selectedRole.updatedDate">
+                        <!-- <input class="form-control" readonly name="updatedDate" #updatedDate="ngModel" [(ngModel)]="_roleService.selectedRole.updatedDate"> -->
+                        <p>{{role.updatedDate | date : "d-MMM-y h:mm:ss a"}}</p>
                       </div>
                     </div>
                     <div class="row">
