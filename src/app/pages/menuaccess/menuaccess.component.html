@@ -1,79 +1,35 @@
 <div class="panel panel-default">
+  <!-- Panel Heading -->
   <div class="panel-heading">
     <h2 class="panel-title">List Menu Access</h2>
   </div>
   <div class="panel-body">
-    <div class="row">
-      <div class="form-group col-md-12">
-        <button type="button" class="btn btn-primary pull-right" (click)="openModalAdd(templateAdd)">Add New</button>
-      </div>
-    </div>
-    <ng-template #templateAdd>
-      <div class="modal-header">
-        <h4 class="modal-title pull-left">Add menuAccess</h4>
-        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form class="menuAccess-form" #menuAccessForm="ngForm" (ngSubmit)="onSubmit(menuAccessForm)">
-          <!-- <input type="hidden" name="_id" #_id="ngModel" [(ngModel)]="_categoryService.selectedCategory._id"> -->
-          <div class="row">
-            <div class="form-group col-md-12">
-              <label for="mmenuAccessId">Role Code</label>
-              <input class="form-control" name="mmenuAccessId" #mmenuAccessId="ngModel" [(ngModel)]="_menuAccessService.selectedMenuAccessList.mRoleId">
-            </div>
-          </div>
-          <div class="row">
-            <div class="form-group col-md-12">
-              <label for="mMenuId">Role Name</label>
-              <input class="form-control" name="mMenuId" #mMenuId="ngModel" [(ngModel)]="_menuAccessService.selectedMenuAccessList.mMenuId">
-            </div>
-          </div>
-          <div class="row">
-            <div class="form-group col-md-4">
-              <button type="submit" class="btn btn-lg btn-block btn-info">Submit</button>
-            </div>
-            <div *ngIf="isNew" class="form-group col-md-4">
-              <button type="button" class="btn btn-lg btn-block btn-secondary" (click)="resetForm(menuAccessForm)">Reset</button>
-            </div>
-            <div class="form-group col-md-4">
-              <button type="button" class="btn btn-lg btn-block btn-warning" (click)="this.modalRef.hide()">Cancel</button>
-            </div>
-          </div>
-        </form>
-      </div>
-    </ng-template>
-
+    <!-- Form Baris Search -->
     <div class="row">
       <div class="form-group col-md-2">
-        <select class="form-control">
-          <option>- Select Role Code -</option>
-          <option>xxxxx</option>
+        <!-- <select name="role" #role="ngModel" [(ngModel)]="_menuAccessService.selectedMenuAccessList.role" class="form-control"> -->
+        <select name="role" class="form-control">
+          <option disabled>-- Role Code --</option>
+          <option *ngFor="let option of _roleService.roleList" value="{{option.code}}">{{option.code}}</option>
         </select>
       </div>
       <div class="form-group col-md-3">
-        <select class="form-control">
-          <option>- Select Role Name -</option>
-          <option>xxxxx</option>
+        <select name="role" class="form-control">
+          <option disabled>-- Role Name --</option>
+          <option *ngFor="let option of _menuService.menuList" value="{{option.name}}">{{option.name}}</option>
         </select>
       </div>
       <div class="form-group col-md-3">
-       <input type="text"
-           placeholder="Datepicker"
-           class="form-control"
-           bsDatepicker
-           placement="bottom"
-        >
-       </div>
+        <input type="text" placeholder="Datepicker" class="form-control" bsDatepicker placement="bottom">
+      </div>
       <div class="form-group col-md-2">
-        <input type="text" class="form-control">
+        <input type="text" class="form-control" placeholder="Type Here">
       </div>
       <div class="form-group col-md-2">
         <button type="button" class="btn btn-warning btn-block">Search</button>
       </div>
     </div>
-
+    <!-- table -->
     <table class="table table-bordered table-hover">
       <thead>
         <tr>
@@ -88,152 +44,193 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let menuAccess of _menuAccessService.selectedMenuAccessList; let i = index">
+        <tr *ngFor="let i = index;let item of pagedItems">
           <td class="text-center">{{i+1}}</td>
-          <td>{{menuAccess.mRoleId}}</td>
-          <td>{{menuAccess.mMenuId}}</td>
-          <td>{{menuAccess.createdDate}}</td>
-          <td>{{menuAccess.createdBy}}</td>
-          <td>{{menuAccess.updatedDate}}</td>
-          <td>{{menuAccess.updatedBy}}</td>
-          
+          <td>{{item.role.code}}</td>
+          <td>{{item.role.name}}</td>
+          <td>{{item.createdDate | date : "medium"}}</td>
+          <td>{{item.createdBy}}</td>
+          <td>{{item.updatedBy}}</td>
+          <td>{{item.updatedDate | date : "medium"}}</td>
+
           <!-- VIEW ICON -->
           <td class="text-center">
-            <button type="button" class="btn btn-default btn-sm" (click)="onView(templateView, menuAccess._id)">
-              <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-              <ng-template #templateView>
-                <div class="modal-header">
-                  <h4 class="modal-title pull-left">View Menu Access</h4>
-                  <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                  <form class="menuAccess-form" #menuAccessForm="ngForm">
-                    <input type="hidden" name="_id" #_id="ngModel" [(ngModel)]="_menuAccessService.selectedmenuAccess._id">
-                    <div class="row">
-                      <div class="form-group col-md-12">
-                        <label for="mRoleId">Role Code</label>
-                        <input class="form-control" readonly name="code" #code="ngModel" [(ngModel)]="_menuAccessService.selectedmenuAccess.code">
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="form-group col-md-12">
-                        <label for="name">Name</label>
-                        <input class="form-control" readonly name="name" #name="ngModel" [(ngModel)]="_menuAccessService.selectedmenuAccess.name">
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="form-group col-md-12">
-                        <label for="description">Description</label>
-                        <input class="form-control" readonly name="description" #description="ngModel" [(ngModel)]="_menuAccessService.selectedmenuAccess.description">
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="form-group col-md-12">
-                        <label for="createdDate">Created Date</label>
-                        <input class="form-control" readonly name="createdDate" #createdDate="ngModel" [(ngModel)]="_menuAccessService.selectedmenuAccess.createdDate">
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="form-group col-md-12">
-                        <label for="createdBy">Created By</label>
-                        <input class="form-control" readonly name="createdBy" #createdBy="ngModel" [(ngModel)]="_menuAccessService.selectedmenuAccess.createdBy">
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="form-group col-md-12">
-                        <label for="updatedDate">Updated Date</label>
-                        <input class="form-control" readonly name="updatedDate" #updatedDate="ngModel" [(ngModel)]="_menuAccessService.selectedmenuAccess.updatedDate">
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="form-group col-md-12">
-                        <label for="updatedBy">Updated By</label>
-                        <input class="form-control" readonly name="updatedBy" #updatedBy="ngModel" [(ngModel)]="_menuAccessService.selectedmenuAccess.updatedBy">
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="form-group col-md-12">
-                        <button type="button" class="btn btn-lg btn-block btn-warning" (click)="this.modalRef.hide()">Close</button>
-                      </div>
-                    </div>
-                  </form>
-                </div>
-              </ng-template>
-            </button>
-            <!-- END VIEW ICON -->
-            <!-- EDIT ICON -->
-            <button type="button" class="btn btn-default btn-sm" (click)="onEdit(templateEdit, menuAccess._id)">
-              <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-              <ng-template #templateEdit>
-                <div class="modal-header">
-                  <h4 class="modal-title pull-left">Edit menuAccess</h4>
-                  <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                  <form class="menuAccess-form" #menuAccessForm="ngForm" (ngSubmit)="onSubmit(menuAccessForm)">
-                    <input type="hidden" name="_id" #_id="ngModel" [(ngModel)]="_menuAccessService.selectedmenuAccess._id">
-                    <div class="row">
-                      <div class="form-group col-md-12">
-                        <label for="code">Code</label>
-                        <input class="form-control" name="code" #code="ngModel" [(ngModel)]="_menuAccessService.selectedmenuAccess.code">
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="form-group col-md-12">
-                        <label for="name">Name</label>
-                        <input class="form-control" name="name" #name="ngModel" [(ngModel)]="_menuAccessService.selectedmenuAccess.name">
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="form-group col-md-12">
-                        <label for="description">Description</label>
-                        <input class="form-control" name="description" #description="ngModel" [(ngModel)]="_menuAccessService.selectedmenuAccess.description">
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="form-group col-md-6">
-                        <button type="submit" class="btn btn-lg btn-block btn-info">Update</button>
-                      </div>
-                      <div class="form-group col-md-6">
-                        <button type="button" class="btn btn-lg btn-block btn-warning" (click)="this.modalRef.hide()">Cancel</button>
-                      </div>
-                    </div>
-                  </form>
-                </div>
-              </ng-template>
-            </button>
-            <!-- END EDIT ICON -->
-            <!-- DELETE ICON -->
-            <button type="button" class="btn btn-default btn-sm" (click)="openModalDelete(templateDelete)">
-              <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-              <ng-template #templateDelete>
-                <div class="modal-header">
-                  <h4 class="modal-title pull-left">Delete menuAccess</h4>
-                  <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                  <h4 class="text-center">Are you sure to delete this?</h4>
+            <span class="btn btn-primary" (click)="openModal(templateView, onView, item._id)">
+              <i class="fa fa-street-view"></i>
+            </span>
+            <!-- Template View -->
+            <ng-template #templateView>
+              <div class="modal-header">
+                <h4 class="modal-title pull-left">View Menu Access</h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form class="menuAccess-form" #menuAccessForm="ngForm" (ngSubmit)="onSubmit(menuAccessForm)">
+                  <input type="hidden" name="_id" #_id="ngModel" [(ngModel)]="_menuAccessService.selectedMenuAccessList._id">
+
+                  <!-- Role Code -->
                   <div class="row">
-                    <div class="form-group col-md-6">
-                      <button type="submit" class="btn btn-block btn-info" (click)="onDelete(menuAccess._id)">Delete</button>
+                    <div class="form-group col-md-3">
+                      <h4 for="role">*Role Code</h4>
                     </div>
-                    <div class="form-group col-md-6">
-                      <button type="button" class="btn btn-block btn-warning" (click)="this.modalRef.hide()">Cancel</button>
+                    <div class="form-group col-md-9">
+                      <select name="role" #role="ngModel" [(ngModel)]="_menuAccessService.selectedMenuAccessList.role" class="form-control" disabled>
+                        <option *ngFor="let option of _roleService.roleList" value="{{option.code}}">{{option.code}}</option>
+                      </select>
+
                     </div>
                   </div>
+                  <!-- end Role Code -->
+
+                  <!-- Menu Access / Role Name -->
+                  <div class="row">
+                    <div class="form-group col-md-3">
+                      <h4 for="menu">*Menu Name</h4>
+                    </div>
+                    <div class="form-group col-md-9">
+                      <!-- checkbox -->
+                      <div class="checkbox" name="menu" id="menu" #menu="ngModel" [(ngModel)]="_menuAccessService.selectedMenuAccessList.menu">
+                        <h4>
+                          <label *ngFor="let option of _menuService.menuList">
+                            <input type="checkbox" value="{{option.name}}">
+                            <span class="cr">
+                              <i class="cr-icon glyphicon glyphicon-ok"></i>
+                            </span>
+                            {{option.name}}
+                          </label>
+                        </h4>
+                      </div>
+                      <!-- end checkbox -->
+                    </div>
+                  </div>
+                  <!-- end Menu Access / Role Code -->
+                  <!-- button -->
+                  <div class="row">
+                    <div class="form-group col-md-4 col-md-offset-8">
+                      <button type="button" class="btn btn-lg btn-block btn-warning" (click)="this.modalRef.hide()">Close</button>
+                    </div>
+                  </div>
+                  <!-- end Buuton -->
+                </form>
+              </div>
+            </ng-template>
+            <!-- End Template View -->
+
+
+            <span class="btn btn-info" value="Edit" (click)="openModal(templateEdit, onEdit, item._id)">
+              <i class="fas fa-edit"></i>
+            </span>
+
+            <!-- Template Edit -->
+            <ng-template #templateEdit>
+              <div class="modal-header">
+                <h4 class="modal-title pull-left">Edit Menu Access</h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form class="menuAccess-form" #menuAccessForm="ngForm" (ngSubmit)="onSubmit(menuAccessForm)">
+                  <input type="hidden" name="_id" #_id="ngModel" [(ngModel)]="_menuAccessService.selectedMenuAccessList._id">
+                  <!-- Role Code -->
+                  <div class="row">
+                    <div class="form-group col-md-3">
+                      <h4 for="role">*Role Code</h4>
+                    </div>
+                    <div class="form-group col-md-9">
+                      <select name="role" #role="ngModel" [(ngModel)]="_menuAccessService.selectedMenuAccessList.role" class="form-control">
+                        <option *ngFor="let option of _roleService.roleList" value="{{option.code}}">{{option.code}}</option>
+                      </select>
+                    </div>
+                  </div>
+                  <!-- end Role Code -->
+
+                  <!-- Menu Access / Role Name -->
+                  <div class="row">
+                    <div class="form-group col-md-3">
+                      <h4 for="menu">*Role Name</h4>
+                    </div>
+                    <div class="form-group col-md-9">
+                      <!-- checkbox -->
+                      <div class="checkbox" name="menu" id="menu" #menu="ngModel" [(ngModel)]="_menuAccessService.selectedMenuAccessList.menu">
+                        <h4>
+                          <label *ngFor="let option of _menuService.menuList">
+                            <input type="checkbox" value="{{option.name}}">
+                            <span class="cr">
+                              <i class="cr-icon glyphicon glyphicon-ok"></i>
+                            </span>
+                            {{option.name}}
+                          </label>
+                        </h4>
+                      </div>
+                      <!-- end checkbox -->
+                    </div>
+                  </div>
+                  <!-- end Menu Access / Role Code -->
+                  <!-- button -->
+                  <div class="row">
+                    <div class="form-group col-md-4 col-md-offset-4">
+                      <button type="submit" class="btn btn-lg btn-block btn-info">Submit</button>
+                    </div>
+                    <div class="form-group col-md-4">
+                      <button type="button" class="btn btn-lg btn-block btn-warning" (click)="this.modalRef.hide()">Cancel</button>
+                    </div>
+                  </div>
+                  <!-- end Buuton -->
+                </form>
+              </div>
+            </ng-template>
+            <!-- End Template Edit -->
+
+
+            <span class="btn btn-danger" value="Delete" (click)="openModal(templateDelete)">
+              <i class="far fa-trash-alt"></i>
+            </span>
+            <!-- template Delete -->
+            <ng-template #templateDelete>
+              <div class="modal-header">
+                <h4 class="modal-title pull-left">Delete Menu Access</h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <h4 class="text-center">Mbok Aku ojo dibusak mas?!</h4>
+                <div class="row">
+                  <div class="form-group col-md-6">
+                    <button type="button" class="btn btn-block btn-info" (click)="onDelete(item._id)">Delete</button>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <button type="button" class="btn btn-block btn-warning" (click)="this.modalRef.hide()">Cancel</button>
+                  </div>
                 </div>
-              </ng-template>
-            </button>
-            <!-- END DELETE -->
+              </div>
+            </ng-template>
+
           </td>
         </tr>
       </tbody>
     </table>
+    <!-- end table -->
+    <!-- pager -->
+    <ul *ngIf="pager.pages && pager.pages.length" class="pagination">
+      <li [ngClass]="{disabled:pager.currentPage === 1}">
+        <a (click)="setPage(1)">First</a>
+      </li>
+      <li [ngClass]="{disabled:pager.currentPage === 1}">
+        <a (click)="setPage(pager.currentPage - 1)">Previous</a>
+      </li>
+      <li *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
+        <a (click)="setPage(page)">{{page}}</a>
+      </li>
+      <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+        <a (click)="setPage(pager.currentPage + 1)">Next</a>
+      </li>
+      <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+        <a (click)="setPage(pager.totalPages)">Last</a>
+      </li>
+    </ul>
   </div>
 </div>

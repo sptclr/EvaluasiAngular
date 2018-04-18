@@ -3,6 +3,7 @@
     <h2 class="panel-title">List Roles</h2>
   </div>
   <div class="panel-body">
+    <ng-flash-message></ng-flash-message>
     <div class="row">
       <div class="form-group col-md-12">
         <button type="button" class="btn btn-primary pull-right" (click)="openModalAdd(templateAdd)">Add New</button>
@@ -16,16 +17,10 @@
         </button>
       </div>
       <div class="modal-body">
-        <form class="role-form" #roleForm="ngForm" ngNativeValidate (ngSubmit)="onSubmit(roleForm)">
+        <form class="role-form" #roleForm="ngForm" (ngSubmit)="onSubmit(roleForm)">
+            <ng-flash-message></ng-flash-message>
           <!-- <input type="hidden" name="_id" #_id="ngModel" [(ngModel)]="_categoryService.selectedCategory._id"> -->
-          <!-- <div class="row">
-            <div class="form-group col-md-12">
-              <label for="code">Code</label>
-              <input class="form-control" name="code" #code="ngModel" [(ngModel)]="_roleService.selectedRole.code">
-            </div>
-          </div> -->
           <!-- <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert alert-danger">
-
             <div *ngIf="name.errors.required">
               Name is required.
             </div>
@@ -38,15 +33,21 @@
           </div> -->
           <div class="row">
             <div class="form-group col-md-12">
+              <label for="code">Code</label>
+              <input class="form-control text-center" name="code" placeholder="Auto Generated" readonly>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-md-12">
               <label for="name">Name</label>
-              <input class="form-control" name="name" #name="ngModel" [(ngModel)]="_roleService.selectedRole.name" required minlength="4"
-                appForbiddenName="bob">
+              <input class="form-control" name="name" id="name" #name="ngModel" [(ngModel)]="_roleService.selectedRole.name" required>
             </div>
           </div>
           <div class="row">
             <div class="form-group col-md-12">
               <label for="description">Description</label>
-              <input class="form-control" name="description" #description="ngModel" [(ngModel)]="_roleService.selectedRole.description">
+              <input class="form-control" name="description" id="description" #description="ngModel" [(ngModel)]="_roleService.selectedRole.description"
+                required>
             </div>
           </div>
           <div class="row">
@@ -64,34 +65,36 @@
       </div>
     </ng-template>
 
-    <div class="row">
-      <div class="form-group col-md-2">
-        <select class="form-control" name="code" id="code" #code="ngModel" [(ngModel)]="_roleService.selectedRole.code">
-          <option *ngFor="let option of _roleService.roleList" value="{{option.code}}">{{option.code}}</option>
-        </select>
+    <form class="">
+      <div class="row">
+        <div class="form-group col-md-2">
+          <select class="form-control" name="code" id="code" #code="ngModel" [(ngModel)]="_roleService.selectedRole.code">
+            <option *ngFor="let option of _roleService.roleList" value="{{option.code}}">{{option.code}}</option>
+          </select>
+        </div>
+        <div class="form-group col-md-3">
+          <select class="form-control" name="name" id="name" #name="ngModel" [(ngModel)]="_roleService.selectedRole.name">
+            <option *ngFor="let option of _roleService.roleList" value="{{option.name}}">{{option.name}}</option>
+          </select>
+        </div>
+        <div class="form-group col-md-3">
+          <input type="date" class="form-control">
+        </div>
+        <div class="form-group col-md-2">
+          <input type="text" class="form-control">
+        </div>
+        <div class="form-group col-md-2">
+          <button type="button" class="btn btn-warning btn-block">Search</button>
+        </div>
       </div>
-      <div class="form-group col-md-3">
-        <select class="form-control" name="name" id="name" #name="ngModel" [(ngModel)]="_roleService.selectedRole.name">
-          <option *ngFor="let option of _roleService.roleList" value="{{option.name}}">{{option.name}}</option>
-        </select>
-      </div>
-      <div class="form-group col-md-3">
-        <input type="date" class="form-control">
-      </div>
-      <div class="form-group col-md-2">
-        <input type="text" class="form-control">
-      </div>
-      <div class="form-group col-md-2">
-        <button type="button" class="btn btn-warning btn-block">Search</button>
-      </div>
-    </div>
+    </form>
 
     <table class="table table-bordered table-hover">
       <thead>
         <tr>
           <th class="text-center">No.</th>
-          <th class="text-center">Code</th>
-          <th class="text-center">Name</th>
+          <th class="text-center">Code Role</th>
+          <th class="text-center">Name Role</th>
           <th class="text-center">Created By</th>
           <th class="text-center">Created Date</th>
           <th class="text-center">Actions</th>
@@ -103,11 +106,11 @@
           <td>{{role.code}}</td>
           <td>{{role.name}}</td>
           <td>{{role.createdBy}}</td>
-          <td>{{role.createdDate}}</td>
+          <td>{{role.createdDate | date : "d-MMM-y h:mm:ss a"}}</td>
           <td class="text-center">
             <button type="button" class="btn btn-default btn-sm" (click)="onView(templateView, role._id)">
               <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-              <ng-template #templateViiew>
+              <ng-template #templateView>
                 <div class="modal-header">
                   <h4 class="modal-title pull-left">View Role</h4>
                   <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
@@ -118,44 +121,60 @@
                   <form class="role-form" #roleForm="ngForm">
                     <input type="hidden" name="_id" #_id="ngModel" [(ngModel)]="_roleService.selectedRole._id">
                     <div class="row">
-                      <div class="form-group col-md-12">
+                      <div class="form-group col-md-3">
                         <label for="code">Code</label>
+                      </div>
+                      <div class="form-group col-md-9">
                         <input class="form-control" readonly name="code" #code="ngModel" [(ngModel)]="_roleService.selectedRole.code">
                       </div>
                     </div>
                     <div class="row">
-                      <div class="form-group col-md-12">
+                      <div class="form-group col-md-3">
                         <label for="name">Name</label>
+                      </div>
+                      <div class="form-group col-md-9">
                         <input class="form-control" readonly name="name" #name="ngModel" [(ngModel)]="_roleService.selectedRole.name">
                       </div>
                     </div>
                     <div class="row">
-                      <div class="form-group col-md-12">
+                      <div class="form-group col-md-3">
                         <label for="description">Description</label>
+                      </div>
+                      <div class="form-group col-md-9">
                         <input class="form-control" readonly name="description" #description="ngModel" [(ngModel)]="_roleService.selectedRole.description">
                       </div>
                     </div>
                     <div class="row">
-                      <div class="form-group col-md-12">
+                      <div class="form-group col-md-3">
                         <label for="createdDate">Created Date</label>
-                        <input class="form-control" readonly name="createdDate" #createdDate="ngModel" [(ngModel)]="_roleService.selectedRole.createdDate">
+                      </div>
+                      <div class="form-group col-md-9">
+                        <!-- <input class="form-control" readonly name="createdDate" #createdDate="ngModel" [(ngModel)]="_roleService.selectedRole.createdDate"> -->
+                        <p>{{role.createdDate | date : "d-MMM-y h:mm:ss a"}}</p>
                       </div>
                     </div>
                     <div class="row">
-                      <div class="form-group col-md-12">
+                      <div class="form-group col-md-3">
                         <label for="createdBy">Created By</label>
+                      </div>
+                      <div class="form-group col-md-9">
                         <input class="form-control" readonly name="createdBy" #createdBy="ngModel" [(ngModel)]="_roleService.selectedRole.createdBy">
                       </div>
                     </div>
                     <div class="row">
-                      <div class="form-group col-md-12">
+                      <div class="form-group col-md-3">
                         <label for="updatedDate">Updated Date</label>
-                        <input class="form-control" readonly name="updatedDate" #updatedDate="ngModel" [(ngModel)]="_roleService.selectedRole.updatedDate">
+                      </div>
+                      <div class="form-group col-md-9">
+                        <!-- <input class="form-control" readonly name="updatedDate" #updatedDate="ngModel" [(ngModel)]="_roleService.selectedRole.updatedDate"> -->
+                        <p>{{role.updatedDate | date : "d-MMM-y h:mm:ss a"}}</p>
                       </div>
                     </div>
                     <div class="row">
-                      <div class="form-group col-md-12">
+                      <div class="form-group col-md-3">
                         <label for="updatedBy">Updated By</label>
+                      </div>
+                      <div class="form-group col-md-9">
                         <input class="form-control" readonly name="updatedBy" #updatedBy="ngModel" [(ngModel)]="_roleService.selectedRole.updatedBy">
                       </div>
                     </div>
@@ -178,12 +197,12 @@
                   </button>
                 </div>
                 <div class="modal-body">
-                  <form class="role-form" #roleForm="ngForm" (ngSubmit)="onSubmit(roleForm)">
+                  <form class="role-form" #roleForm="ngForm" (ngSubmit)="onUpdate(roleForm)">
                     <input type="hidden" name="_id" #_id="ngModel" [(ngModel)]="_roleService.selectedRole._id">
                     <div class="row">
                       <div class="form-group col-md-12">
                         <label for="code">Code</label>
-                        <input class="form-control" name="code" #code="ngModel" [(ngModel)]="_roleService.selectedRole.code">
+                        <input class="form-control" readonly name="code" #code="ngModel" [(ngModel)]="_roleService.selectedRole.code">
                       </div>
                     </div>
                     <div class="row">
@@ -223,7 +242,7 @@
                   <h4 class="text-center">Are you sure to delete this?</h4>
                   <div class="row">
                     <div class="form-group col-md-6">
-                      <button type="submit" class="btn btn-block btn-info" (click)="onDelete(role._id)">Delete</button>
+                      <button type="button" class="btn btn-block btn-info" (click)="onDelete(role._id)">Delete</button>
                     </div>
                     <div class="form-group col-md-6">
                       <button type="button" class="btn btn-block btn-warning" (click)="this.modalRef.hide()">Cancel</button>

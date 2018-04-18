@@ -52,11 +52,12 @@ export class ProductsComponent implements OnInit {
     }
   }
   onDelete(_id : String){
-    if(confirm('Are you sure want to delete this record?') === true){
-      this.productService.deleteProduct(_id)
-          .subscribe(x => {
-            this.productService.getProducts();
-          })
+    if ( confirm('Are you sure to delete this record?') === true) {
+    this.productService.deleteProduct(_id)
+        .subscribe(x => {
+          this.productService.getProducts();
+          this.modalRef.hide();
+        })
     }
   }
 }

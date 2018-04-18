@@ -16,6 +16,7 @@ export class MenuService {
 
   selectedMenu: Menu;
   menuList: Menu [];
+
   constructor(private http: Http) { }
 
   getMenus() {
@@ -47,7 +48,7 @@ export class MenuService {
     const body = JSON.stringify(menu);
     const headerOptions = new Headers({ 'Content-Type': 'application/json'});
     const requestOptions = new RequestOptions({ method: RequestMethod.Patch, headers: headerOptions});
-    return this.http.patch(this._url + '/' + _id,menu, requestOptions).map(x => x.json());
+    return this.http.patch(this._url + '/' + _id, menu, requestOptions).map(x => x.json());
   }
 
   deleteMenu(_id) {

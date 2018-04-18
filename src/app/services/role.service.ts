@@ -57,5 +57,12 @@ export class RoleService {
                     .map(x => x.json());
   }
 
+  isDeleteRole(_id) {
+    const headerOptions = new Headers({'Content-Type': 'application/json'});
+    const requestOptions = new RequestOptions({method: RequestMethod.Put, headers: headerOptions});
+    return this.http.put(this._url + '/' + _id, requestOptions)
+                    .map(x => x.json());
+  }
+
 }
 

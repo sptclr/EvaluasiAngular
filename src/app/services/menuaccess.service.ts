@@ -14,8 +14,8 @@ export class MenuaccessService {
 
   private _url = "http://localhost:3000/api/menuaccesses";
 
-  selectedMenuAccess: Menuaccess;
-  selectedMenuAccessList: Menuaccess[];
+  selectedMenuAccess: Menuaccess;//tunggal
+  selectedMenuAccessList: Menuaccess[];//jamak
 
   constructor(private http: Http) { }
 
@@ -28,7 +28,7 @@ export class MenuaccessService {
         })
   }//end get all
 
-  postMenuAccess(menuaccess: Menuaccess){
+  postMenuAccess(menuaccess: Menuaccess[]){
     const body = JSON.stringify(menuaccess);
     const headerOptions = new Headers({'Content-Type': 'application/json'});
     const requestOptions = new RequestOptions({method: RequestMethod.Post, headers: headerOptions});
@@ -53,9 +53,16 @@ export class MenuaccessService {
                   .map(x => x.json())
   }//end patch menu access
 
-  deleteMenuAccess(_id){
-    return this.http.delete(this._url + '/' + _id)
+  putMenuAccess(_id){
+    const headerOptions = new Headers({'Content-Type' : 'application/json'});
+    const requestOptions = new RequestOptions({method: RequestMethod.Put, headers: headerOptions});
+    return this.http.put(this._url + '/' + _id,  requestOptions)
                   .map(x => x.json())
-  }//end delete
+  }//end patch menu access
+
+  // deleteMenuAccess(_id){
+  //   return this.http.delete(this._url + '/' + _id)
+  //                 .map(x => x.json())
+  // }//end delete
 
 }//end class MenuAccessService
