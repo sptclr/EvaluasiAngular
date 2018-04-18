@@ -12,12 +12,11 @@ import { NgFlashMessageService } from 'ng-flash-messages';
 })
 export class RolesComponent implements OnInit {
   modalRef: BsModalRef;
-
-  form: FormGroup;
+  page: number = 1;
 
   constructor(private _roleService: RoleService,
-              private modalService: BsModalService,
-              private ngFlashMessageService: NgFlashMessageService) { }
+    private modalService: BsModalService,
+    private ngFlashMessageService: NgFlashMessageService) { }
 
   ngOnInit() {
     this.resetForm();
@@ -51,7 +50,7 @@ export class RolesComponent implements OnInit {
             type: 'success'
           })
         })
-    } 
+    }
   }
 
   onView(template: TemplateRef<any>, _id: String) {
@@ -71,6 +70,12 @@ export class RolesComponent implements OnInit {
         this._roleService.getRoles();
         this.resetForm(form);
         this.modalRef.hide();
+        this.ngFlashMessageService.showFlashMessage({
+          messages: ["Data berhasil di-update!!"],
+          dismissible: true,
+          timeout: false,
+          type: 'info'
+        })
       })
   }
 
@@ -92,6 +97,12 @@ export class RolesComponent implements OnInit {
         this._roleService.getRoles();
         this.modalRef.hide();
       });
+    this.ngFlashMessageService.showFlashMessage({
+      messages: ["Data berhasil di-delete!!"],
+      dismissible: true,
+      timeout: false,
+      type: 'info'
+    })
   }
 
 
