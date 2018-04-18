@@ -2,6 +2,7 @@
 import { Injectable } from '@angular/core';
 import { User} from '../models/user.model';
 import { Role} from '../models/role.model';
+import { Employee } from '../models/employee.model';
 import { HttpClient} from '@angular/common/http';
 import { Http, Response, Headers, RequestOptions, RequestMethod } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
@@ -13,12 +14,15 @@ import 'rxjs/add/operator/toPromise';
 export class UserService {
 
   private _url = 'http://localhost:3000/api/users';
-  private _url1 = 'http://localhost:3000/api/users';
+  private _url1 = 'http://localhost:3000/api/roles';
+  private _url2 = 'http://localhost:3000/api/employees';
 
   selectedUser: User;
   userList: User [];
   selectedRole: Role;
   roleList: Role [];
+  selectedEmployee : Employee;
+  employeeList: Employee [];
   constructor(private http: Http) { }
 
   getUsers() {
@@ -36,6 +40,15 @@ export class UserService {
       return data.json() as Role[];
     }).toPromise().then(x => {
       this.roleList = x;
+    });
+  }
+
+  getEmployees() {
+    this.http.get(this._url2)
+    .map((data: Response) => {
+      return data.json() as Employee[];
+    }).toPromise().then(x => {
+      this.employeeList = x;
     });
   }
 

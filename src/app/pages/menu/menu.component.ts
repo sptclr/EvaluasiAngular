@@ -28,6 +28,14 @@ export class MenuComponent implements OnInit {
     this.menuService.selectedMenu = new Menu();
   }
 
+  openModalView(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template);
+  }
+
+  openModalEdit(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template);
+  }
+
   openModal( template: TemplateRef<any>){
     this.modalRef = this.modalService.show(template);
     this.resetForm();
@@ -61,6 +69,10 @@ export class MenuComponent implements OnInit {
     this.menuService.getMenu(_id);
     this.openModal(template);
     this.isNew = false;
+  }
+
+  openModalDelete(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template);
   }
 
   onDelete(_id: String) {
