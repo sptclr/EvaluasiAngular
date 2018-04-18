@@ -32,24 +32,30 @@
             <input class="form-control" 
                    placeholder="Type Username"
                    required 
-                  pattern="^[0-9]+[A-Z]\"
+                  pattern="[a-zA-Z]*"
                    id="username" 
                    name="username" 
                    #usernameControl="ngModel" 
                    #username="ngModel" 
                    [(ngModel)]="userService.selectedUser.username">
                    <!-- pattern="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+[a-zA-Z0-9-.]+$" -->
-          <div class="help-block" *ngIf="usernameControl.errors && (usernameControl.dirty || usernameControl.touched ||usernameControl.pattern)">
+          <div class="help-block" *ngIf="username.errors && (username.dirty || username.touched ||username.pattern)">
             <!-- <div [hidden]=!usernameControl.errors.required>user name is required</div> -->
-            <div [hidden]=!usernameControl.errors.minlength>min length 8 char</div>
-            <div [hidden]=!usernameControl.errors.pattern>Username must contain Number</div>
+            <div [hidden]=!username.errors.minlength>min length 8 char</div>
+            <div [hidden]=!username.errors.pattern>Username combination requiredr</div>
           </div>
           </div> 
         </div>
         <div class="form-group" [class.has-error]="passwordControl.invalid && passwordControl.touched">
           <label for="password" class="col-sm-2 control-label">Password</label>
           <div class="col-md-6">
-            <input class="form-control" placeholder="Type Password" required id="password" type="password" name="password" #passwordControl="ngModel" #password="ngModel"  [(ngModel)]="userService.selectedUser.password">
+            <input class="form-control"
+                   placeholder="Type Password" 
+                   required id="password" 
+                   type="password" 
+                   name="password" 
+                   #passwordControl="ngModel" 
+                   #password="ngModel"  [(ngModel)]="userService.selectedUser.password">
             <span class="help-block" *ngIf="passwordControl.invalid && passwordControl.touched">password is required</span>
           </div> 
         </div>
