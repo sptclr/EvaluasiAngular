@@ -25,7 +25,6 @@ export class MenuaccessComponent implements OnInit {
   form: FormGroup;
   checkIfOthersAreSelected: boolean;
   page: number = 1;
-  collection: any[] = [];
   
 
   constructor(
@@ -59,7 +58,7 @@ export class MenuaccessComponent implements OnInit {
 
 
   onSubmit(form?: NgForm) {
-    //alert(JSON.stringify(form.value));
+    // alert(JSON.stringify(form.value));
     if (form.value._id == null) {
       this._menuAccessService.postMenuAccess(form.value)
         .subscribe(data => {
