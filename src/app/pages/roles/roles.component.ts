@@ -46,7 +46,7 @@ export class RolesComponent implements OnInit {
           this.ngFlashMessageService.showFlashMessage({
             messages: ["Data berhasil disimpan!!"],
             dismissible: true,
-            timeout: false,
+            timeout: true,
             type: 'success'
           })
         })
@@ -73,7 +73,7 @@ export class RolesComponent implements OnInit {
         this.ngFlashMessageService.showFlashMessage({
           messages: ["Data berhasil di-update!!"],
           dismissible: true,
-          timeout: false,
+          timeout: true,
           type: 'info'
         })
       })
@@ -89,13 +89,13 @@ export class RolesComponent implements OnInit {
       .subscribe(x => {
         this._roleService.getRoles();
         this.modalRef.hide();
+        this.ngFlashMessageService.showFlashMessage({
+          messages: ["Data berhasil di-delete!!"],
+          dismissible: true,
+          timeout: true,
+          type: 'info'
+        })
       });
-    this.ngFlashMessageService.showFlashMessage({
-      messages: ["Data berhasil di-delete!!"],
-      dismissible: true,
-      timeout: false,
-      type: 'info'
-    })
   }
   // onDelete(_id) {
   //   this._roleService.isDeleteRole(_id)
