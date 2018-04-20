@@ -6,6 +6,7 @@ import {NgForm} from '@angular/forms';
 import { Employee } from '../../models/employee.model';
 import { Company } from '../../models/company.model';
 import { NgFlashMessageService } from 'ng-flash-messages';
+import { CompanyService } from '../../services/company.service';
 
 @Component({
   selector: 'app-employees',
@@ -14,15 +15,18 @@ import { NgFlashMessageService } from 'ng-flash-messages';
 })
 export class EmployeesComponent implements OnInit {
 
+
   modalRef: BsModalRef;
   isNew : Boolean = true;
   
 
 constructor(private _employeeService: EmployeeService, 
+            private _companyService: CompanyService,
             private modalService: BsModalService, 
             private ngFlashMessageService: NgFlashMessageService) { }
 
   ngOnInit() {
+    
     this.resetForm();
     this._employeeService.getEmployees();
     this._employeeService.getCompanies();
@@ -87,25 +91,6 @@ constructor(private _employeeService: EmployeeService,
     this.openModalView(template);
   }
 
-  onDelete(_id: String, employee: any){
-    //alert(JSON.stringify(employee));
-    employee.isDelete=true;
-    if (confirm('Are you sure to delete this?') === true) {
-      this._employeeService.isDeleteEmployee(_id, employee)
-      .subscribe(x => {
-        this._employeeService.getEmployees();
-        this.ngFlashMessageService.showFlashMessage({
-          messages: ["Data Deleted!!"],
-          dismissible: true,
-          timeout: false,
-          type: 'success'
-        })
-      });
-      
-    }
-    }
-  
-
   openModalAdd(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
     this.resetForm();
@@ -117,5 +102,47 @@ constructor(private _employeeService: EmployeeService,
   openModalEdit(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
   }
+  
+  openModalDelete(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template);
+  }
+
+
+  onDelete(_id: String, employee: any) {
+    employee.isDelete=true;
+    if (confirm('Are you sure to delete this?') === true) {
+      this._employeeService.isDeleteEmployee(_id, employee)
+      .subscribe(x => {
+        this._employeeService.getEmployees();
+        this.modalRef.hide();
+      });
+        this.ngFlashMessageService.showFlashMessage({
+      messages: ["Data berhasil di-delete!!"],
+          dismissible: true,
+          timeout: false,
+      type: 'info'
+        })
+  }
+
+  // onDelete(_id: String, employee: any){
+  //   //alert(JSON.stringify(employee));
+  //   employee.isDelete=true;
+    
+  //     this._employeeService.isDeleteEmployee(_id, employee)
+  //     .subscribe(x => {
+  //       this._employeeService.getEmployees();
+  //       this.ngFlashMessageService.showFlashMessage({
+  //         messages: ["Data Deleted!!"],
+  //         dismissible: true,
+  //         timeout: false,
+  //         type: 'success'
+  //       })
+  //     });
+      
+    
+      
+}
+
+
 
 }
