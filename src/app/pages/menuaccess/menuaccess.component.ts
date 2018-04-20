@@ -57,31 +57,35 @@ export class MenuaccessComponent implements OnInit {
   }//end reset
 
 
-  onSubmit(form?: NgForm) {
-    // alert(JSON.stringify(form.value));
-    if (form.value._id == null) {
-      this._menuAccessService.postMenuAccess(form.value)
-        .subscribe(data => {
-          this._menuAccessService.getMenuAccesses();
-          this.resetForm(form);
-          this.modalRef.hide()
-        });
-    } else {
-      this._menuAccessService.patchMenuAccess(form.value._id, form.value)
-        .subscribe(data => {
-          this._menuAccessService.getMenuAccesses();
-          this.resetForm(form);
-          this.modalRef.hide();
-        })
-    }
-  }//end submit
+  // onSubmit(form?: NgForm) {
+   
+  //   // alert(JSON.stringify(form.value));
+  //   if (form.value._id == null) {
+
+  //     this._menuAccessService.postMenuAccess(form.value)
+  //       .subscribe(data => {
+  //         this._menuAccessService.getMenuAccesses();
+  //         this.resetForm(form);
+  //         this.modalRef.hide()
+  //       });
+  //   } else {
+  //     this._menuAccessService.patchMenuAccess(form.value._id, form.value)
+  //       .subscribe(data => {
+  //         this._menuAccessService.getMenuAccesses();
+  //         this.resetForm(form);
+  //         this.modalRef.hide();
+  //       })
+  //   }
+  // }//end submit
 
   onEdit(template: TemplateRef<any>, _id: String) {
+    this.modalRef = this.modalService.show(template);  
     this._menuAccessService.getMenuAccess(_id);
   }//end edit
 
-  onView(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template)
+  onView(template: TemplateRef<any>, _id: String) {
+    this._menuAccessService.getMenuAccess(_id);    
+    this.modalRef = this.modalService.show(template);
   }//end onView
 
   openModal(template: TemplateRef<any>) {

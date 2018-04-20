@@ -10,13 +10,13 @@
         <!-- <select name="role" #role="ngModel" [(ngModel)]="_menuAccessService.selectedMenuAccessList.role" class="form-control"> -->
         <select name="role" class="form-control">
           <option disabled>-- Role Code --</option>
-          <option *ngFor="let option of _roleService.roleList" value="{{option.code}}">{{option.code}}</option>
+          <option *ngFor="let option of _menuAccessService.selectedMenuAccessList" value="{{option.role.code}}">{{option.role.code}}</option>
         </select>
       </div>
       <div class="form-group col-md-3">
         <select name="role" class="form-control">
           <option disabled>-- Role Name --</option>
-          <option *ngFor="let option of _menuService.menuList" value="{{option.name}}">{{option.name}}</option>
+          <option *ngFor="let option of _menuAccessService.selectedMenuAccessList" value="{{option.menu.name}}">{{option.menu.name}}</option>
         </select>
       </div>
       <div class="form-group col-md-3">
@@ -63,7 +63,7 @@
                 </button>
               </div>
               <div class="modal-body">
-                <form class="menuAccess-form" #menuAccessForm="ngForm" (ngSubmit)="onSubmit(menuAccessForm)">
+                <form class="menuAccess-form" #menuAccessForm="ngForm" (ngSubmit)="onView(menuAccessForm, item._id)">
                   <input type="hidden" name="_id" #_id="ngModel" [(ngModel)]="_menuAccessService.menuAccessList._id">
                   <!-- Role Code View -->
                   <div class="row">
@@ -71,8 +71,8 @@
                       <h4 for="role">*Role Code</h4>
                     </div>
                     <div class="form-group col-md-9">
-                      <select name="role" #role="ngModel" [(ngModel)]="_menuAccessService.menuAccessList.role" class="form-control" disabled>
-                        <option *ngFor="let option of _roleService.roleList" value="{{option.code}}">{{option.code}}</option>
+                      <select name="role" #role="ngModel" [(ngModel)]="_menuAccessService.menuAccessList" class="form-control" disabled>
+                        <option *ngFor="let option of _menuAccessService.menuAccessList" value="{{option.role.code}}">{{option.role.code}}</option>
                       </select>
 
                     </div>
@@ -88,12 +88,12 @@
                       <!-- checkbox edit -->
                       <div class="checkbox">
                         <h4>
-                          <label *ngFor="let option of _menuService.menuList">
-                            <input type="checkbox" value="{{option.name}}" name="menu" id="menu" #menu="ngModel" [(ngModel)]="_menuAccessService.menuAccessList.menu">
+                          <label *ngFor="let option of _menuAccessService.selectedMenuAccessList">
+                            <input type="checkbox" value="{{option.menu.name}}">
                             <span class="cr">
                               <i class="cr-icon fa fa-check"></i>
                             </span>
-                            {{option.name}}
+                            {{option.menu.name}}
                           </label>
                         </h4>
                       </div>
@@ -127,7 +127,7 @@
                 </button>
               </div>
               <div class="modal-body">
-                <form class="menuAccess-form" #menuAccessForm="ngForm" (ngSubmit)="onSubmit(menuAccessForm)">
+                <form class="menuAccess-form" #menuAccessForm="ngForm" (ngSubmit)="onEdit(menuAccessForm)">
                   <input type="hidden" name="_id" #_id="ngModel" [(ngModel)]="_menuAccessService.menuAccessList._id">
                   <!-- Role Code EDIT -->
                   <div class="row">
@@ -136,7 +136,7 @@
                     </div>
                     <div class="form-group col-md-9">
                       <select name="role" #role="ngModel" [(ngModel)]="_menuAccessService.menuAccessList.role" class="form-control">
-                        <option *ngFor="let option of _roleService.roleList" value="{{option.code}}">{{option.code}}</option>
+                        <option *ngFor="let option of _menuAccessService.menuAccessList" value="{{option.role.code}}">{{option.role.code}}</option>
                       </select>
                     </div>
                   </div>
@@ -151,12 +151,12 @@
                       <!-- checkbox edit -->
                       <div class="checkbox">
                         <h4>
-                          <label *ngFor="let option of _menuService.menuList">
-                            <input type="checkbox" value="{{option.name}}" name="menu" id="menu" #menu="ngModel" [(ngModel)]="_menuAccessService.menuAccessList.menu">
+                          <label *ngFor="let option of _menuAccessService.menuAccessList">
+                            <input type="checkbox" value="{{option.menu.name}}" >
                             <span class="cr">
                               <i class="cr-icon fa fa-check"></i>
                             </span>
-                            {{option.name}}
+                            {{option.menu.name}}
                           </label>
                         </h4>
                       </div>
