@@ -13,7 +13,8 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { Http, HttpModule } from '@angular/http';
 import { AppRoutingModule } from './app-routing.module';
 import { routingComponents } from './app-routing.module';
-import {NgxPaginationModule} from 'ngx-pagination';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
 
 //Component Parent
@@ -52,6 +53,7 @@ import { UserService } from './services/user.service';
   ],
   imports: [
     BrowserModule,
+    Ng2SearchPipeModule,
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
