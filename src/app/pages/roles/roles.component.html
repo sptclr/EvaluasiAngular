@@ -18,7 +18,6 @@
       </div>
       <div class="modal-body">
         <form class="role-form" #roleForm="ngForm" (ngSubmit)="onSubmit(roleForm)">
-          <ng-flash-message></ng-flash-message>
           <div class="row">
             <div class="form-group col-md-12">
               <label for="code">Code</label>
@@ -28,16 +27,14 @@
           <div class="row">
             <div class="form-group col-md-12" [class.has-error]="nameControl.invalid && nameControl.touched">
               <label for="name">Name</label>
-              <input class="form-control" name="name" id="name" #name="ngModel" [(ngModel)]="_roleService.selectedRole.name" required pattern="[a-zA-Z0-9 ]*"
-                #nameControl="ngModel">
+              <input class="form-control" name="name" id="name" #name="ngModel" [(ngModel)]="_roleService.selectedRole.name" required pattern="[a-zA-Z0-9 ]*" #nameControl="ngModel">
               <span class="help-block" *ngIf="nameControl.invalid && nameControl.touched">Role Name is required</span>
             </div>
           </div>
           <div class="row">
             <div class="form-group col-md-12" [class.has-error]="descriptionControl.invalid && descriptionControl.touched">
               <label for="description">Description</label>
-              <input class="form-control" name="description" id="description" #description="ngModel" [(ngModel)]="_roleService.selectedRole.description"
-                required #descriptionControl="ngModel">
+              <input class="form-control" name="description" id="description" #description="ngModel" [(ngModel)]="_roleService.selectedRole.description" required #descriptionControl="ngModel">
               <span class="help-block" *ngIf="descriptionControl.invalid && descriptionControl.touched">Description is required</span>
             </div>
           </div>
@@ -239,20 +236,22 @@
                       </div>
                     </div>
                     <div class="row">
-                      <div class="form-group col-md-12">
+                      <div class="form-group col-md-12" [class.has-error]="nameControl.invalid && nameControl.touched">
                         <label for="name">Name</label>
-                        <input class="form-control" name="name" #name="ngModel" [(ngModel)]="_roleService.selectedRole.name">
+                        <input class="form-control" name="name" #name="ngModel" [(ngModel)]="_roleService.selectedRole.name" required pattern="[a-zA-Z0-9 ]*" #nameControl="ngModel">
+                        <span class="help-block" *ngIf="nameControl.invalid && nameControl.touched">Role Name is required</span>
                       </div>
                     </div>
                     <div class="row">
-                      <div class="form-group col-md-12">
+                      <div class="form-group col-md-12" [class.has-error]="descriptionControl.invalid && descriptionControl.touched">
                         <label for="description">Description</label>
-                        <input class="form-control" name="description" #description="ngModel" [(ngModel)]="_roleService.selectedRole.description">
+                        <input class="form-control" name="description" #description="ngModel" [(ngModel)]="_roleService.selectedRole.description" required #descriptionControl="ngModel">
+                        <span class="help-block" *ngIf="descriptionControl.invalid && descriptionControl.touched">Description is required</span>
                       </div>
                     </div>
                     <div class="row">
                       <div class="form-group col-md-6">
-                        <button type="submit" class="btn btn-block btn-info">Update</button>
+                        <button type="submit" class="btn btn-block btn-info" [disabled]="roleForm.invalid">Update</button>
                       </div>
                       <div class="form-group col-md-6">
                         <button type="button" class="btn btn-block btn-warning" (click)="this.modalRef.hide()">Cancel</button>
